@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+   version="2.5">
+
+  <display-name>Testruts for ardbeg.dev.ksi.co.jp</display-name>
+
+  <context-param>
+   <description>properties</description>
+   <param-name>properties</param-name>
+   <param-value>/WEB-INF/testruts.properties</param-value>
+  </context-param>
+
+  <filter>
+    <filter-name>SetCharacterEncoding</filter-name>
+    <filter-class>jp.co.ksi.eip.commons.servlet.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+  </filter>
+  <filter>
+    <filter-name>RemoteUser</filter-name>
+    <filter-class>jp.co.ksi.eip.commons.servlet.BasicRemoteUserFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>RemoteAddr</filter-name>
+    <filter-class>jp.co.ksi.eip.commons.servlet.WSORemoteAddrFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>Semaphore</filter-name>
+    <filter-class>jp.co.ksi.incubator.SemaphoreFilter</filter-class>
+    <init-param>
+      <param-name>max</param-name>
+      <param-value>5</param-value>
+    </init-param>
+  </filter>
+<!--
+  <filter>
+   <filter-name>KacFilter</filter-name>
+   <filter-class>JP.co.ksi.eip.filter.KacFilter</filter-class>
+   <init-param>
+    <param-name>authorization</param-name>
+    <param-value>Basic aG9nZTpob2dlMDE=</param-value>
+   </init-param>
+  </filter>
+ -->
+
+  <filter-mapping>
+    <filter-name>SetCharacterEncoding</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>RemoteUser</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>RemoteAddr</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>Semaphore</filter-name>
+    <url-pattern>/sleep.jsp</url-pattern>
+  </filter-mapping>
+
+  <!-- Listener configuration -->
+  <listener>
+   <description>Context Initializer</description>
+   <listener-class>jp.co.ksi.eip.commons.servlet.InitContextListener</listener-class>
+  </listener>
+
+  <servlet>
+    <servlet-name>action</servlet-name>
+    <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+    <init-param>
+      <param-name>config</param-name>
+      <param-value>/WEB-INF/struts-config.xml, /WEB-INF/struts-config-oauth.xml, /WEB-INF/struts-config-oauth2.xml</param-value>
+    </init-param>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+  <servlet>
+    <display-name>SQLServlet</display-name>
+    <servlet-name>SQLServlet</servlet-name>
+    <servlet-class>jp.co.ksi.eip.commons.servlet.JndiSqlServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <display-name>TestServlet</display-name>
+    <servlet-name>TestServlet</servlet-name>
+    <servlet-class>jp.co.ksi.testruts.servlet.TestServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>WSOLoginServlet</servlet-name>
+    <servlet-class>jp.co.ksi.incubator.wso.WSOLoginServlet</servlet-class>
+  </servlet>
+
+  <!-- Standard Action Servlet Mapping -->
+  <servlet-mapping>
+    <servlet-name>action</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SQLServlet</servlet-name>
+    <url-pattern>/SQLServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SQLServlet</servlet-name>
+    <url-pattern>/SQLServlet/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TestServlet</servlet-name>
+    <url-pattern>/TestServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>WSOLoginServlet</servlet-name>
+    <url-pattern>/wsoLogin</url-pattern>
+  </servlet-mapping>
+
+  <session-config>
+   <session-timeout>10</session-timeout>
+  </session-config>
+
+  <!-- The Usual Welcome File List -->
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+
+ <jsp-config>
+  <taglib>
+    <taglib-uri>ksi.tld</taglib-uri>
+    <taglib-location>/WEB-INF/tld/ksi.tld</taglib-location>
+  </taglib>
+  <taglib>
+    <taglib-uri>eip.tld</taglib-uri>
+    <taglib-location>/WEB-INF/tld/eip.tld</taglib-location>
+  </taglib>
+  <taglib>
+    <taglib-uri>struts-bean.tld</taglib-uri>
+    <taglib-location>/WEB-INF/tld/struts-bean.tld</taglib-location>
+  </taglib>
+  <taglib>
+    <taglib-uri>struts-html.tld</taglib-uri>
+    <taglib-location>/WEB-INF/tld/struts-html.tld</taglib-location>
+  </taglib>
+  <taglib>
+    <taglib-uri>struts-logic.tld</taglib-uri>
+    <taglib-location>/WEB-INF/tld/struts-logic.tld</taglib-location>
+  </taglib>
+  <taglib>
+    <taglib-uri>struts-nested.tld</taglib-uri>
+    <taglib-location>/WEB-INF/tld/struts-nested.tld</taglib-location>
+  </taglib>
+ </jsp-config>
+
+</web-app>

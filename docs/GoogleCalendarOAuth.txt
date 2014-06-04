@@ -1,0 +1,124 @@
+GoogleCalendar Portlet
+2012/06/21 Kac
+======================================================================
+
+１．認可要求
+目的：下記URLに対してPOSTデータを送るFORM画面を生成する
+
+URL:https://accounts.google.com/o/oauth2/auth <- oauthConfigから
+引数：
+　response_type: oauthConfigから
+　client_id: oauthConfigから
+　redirect_uri: oauthConfigから
+　scope: oauthConfigから
+　state: form画面で生成する <-- oauthConfigをセッションに保持する時の属性名がよいのでは？
+　access_type: oauthConfigから(default=offline)
+　approval_prompt: oauthConfigから(default=force)
+戻値：
+　googleの認可画面に遷移し、認可完了後に、２へリダイレクトされる
+
+２．access_token要求
+目的：googleからのリダイレクトで渡されたcodeを使って、access_tokenを取得する
+　下記URLにアクセスし戻値をoauthとして保存する
+　成功時->５へ
+
+URL：https://accounts.google.com/o/oauth2/token <- oauthConfigから
+引数：
+　code: リダイレクト時のパラメータから
+　client_id: oauthConfigから
+　client_secret: oauthConfigから
+　redirect_uri: oauthConfigから
+　grant_type: authorization_code固定？
+戻値：
+　access_token:
+　expires_in:
+　token_type:
+　refresh_token:
+
+３．カレンダーサービス呼出(イベント一覧)
+目的：oauthを使ってサービスを呼び、イベント一覧を取得する
+　oauthが無い->１へ
+　401エラー->４へ
+
+URL：https://www.googleapis.com/calendar/v3/calendars/{calendarId}/events <- serviceParamから
+
+ヘッダ：
+　Authorization: ${token_type} ${access_token} (oauthから)
+
+引数：
+　calendarId: serviceParamから
+　maxResults: serviceParamから
+　timeMax: 現在日時 - n日(nはserviceParamから)
+　timeMin: 現在日時 + n日(nはserviceParamから)
+
+戻値：
+　events.json
+
+４．トークン再取得
+目的：refresh_tokenを使って、access_tokenを再取得する
+　下記URLにアクセスし戻値をoauthとして保存する
+　成功時->３へ
+
+URL：https://accounts.google.com/o/oauth2/token <- oauthConfigから
+
+引数：
+　refresh_token: oauthから
+　client_id: oauthConfigから
+　client_secret: oauthConfigから
+　redirect_uri: oauthConfigから
+　grant_type: refresh_token固定？
+
+戻値：oauthとして保存
+　access_token:
+　expires_in:
+　token_type:
+
+
+５．サービス呼出の設定変更
+目的：serviceParamの値を変更する
+　成功時->３へ
+
+
+※考察
+oauthConfig
+　oauthのaccess_tokenを取得する為に必要な情報を持つ
+　このサービス毎に必要なoauthは異なるので、oauthConfigもサービス毎に１つ必要
+　oauth取得処理は、サービスが異なっても共通化できる(と思う)
+　　少なくともgoogleでは出来そう
+　oauthConfigに対応するクラスは１つ
+　oauthConfigを保持するファイルは、サービス毎(=oauth毎)
+
+serviceParam
+　サービス呼出時のパラメータを持つ
+　サービス毎にパラメータは異なる
+　呼出処理もサービス毎に異なるので、型自体都度検討
+　サービス毎ｘユーザ毎に１つ存在する
+　serviceParamに対応するクラスは、サービス毎に検討
+　serviceParamを保持するファイルもサービス毎に検討
+　　googleCalendarではユーザ毎に保持する
+
+oauth
+　サービス呼出時に付加するoauth情報
+　サービス毎ｘユーザ毎に１つ存在する
+　oauthに対応するクラスは１つ
+　oauthを保持するファイルは、サービス毎に検討
+　　googleCalendarではユーザ毎に保持する
+
+/home/portal/google-calendar/oauth-config.properties
+/home/portal/google-calendar/kac.properties
+/home/portal/google-calendar/kac.json
+
+タスク構成
+GetOAuthConfig	oauthConfigを読込む
+SaveOAuthConfig	oauthConfigを保存する
+OAuthServiceBaseBL
+(1)serviceParamを読込む
+subExec()
+
+SaveServiceConfig	serviceParamを保存する	○
+GetOAuthConfig		oauthConfigを読込む	　　○　○
+GetAccessToken		access_tokenを取得する	　　○
+RefreshAccessToken	access_tokenを取得する　　　○
+CallService			サービスを呼出す　　　　○
+
+

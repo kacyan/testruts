@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE taglib
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+	"http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+
+<taglib>
+	<tlibversion>1.0</tlibversion>
+	<jspversion>1.1</jspversion>
+	<shortname>ksi</shortname>
+	<uri></uri>
+	<info>KSI Tag Lib</info>
+
+	<tag>
+		<name>filter</name>
+		<tagclass>JP.co.ksi.taglib.FilterTag</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<info>Tag Filter</info>
+	</tag>
+	<tag>
+		<name>url</name>
+		<tagclass>JP.co.ksi.taglib.URLTag</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<info>URL Encoding</info>
+		<attribute>
+			<name>charset</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>type</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>request</name>
+		<tagclass>JP.co.ksi.taglib.RequestAttributePropertyTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<info>Output PropertyValue in RequestAttribute.</info>
+		<attribute>
+			<name>attribute</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>page</name>
+		<tagclass>JP.co.ksi.taglib.PageAttributePropertyTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<info>Output PropertyValue in PageAttribute.</info>
+		<attribute>
+			<name>attribute</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>

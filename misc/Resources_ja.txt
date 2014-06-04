@@ -1,0 +1,30 @@
+MSG_RESOURCE= (ja)Message Resource
+
+label.title=Strutsの習作
+
+label.uid=ユーザID
+label.userName=名前
+label.companyName=会社名
+label.officeName=事業所名
+label.mail=メールアドレス
+
+link.ok=[OK]
+link.cancel=[Cancel]
+link.top=[先頭]
+link.prev=[前頁]
+link.next=[次頁]
+link.last=[最後]
+link.back=[戻る]
+link.close=[閉じる]
+link.delete=[削除]
+
+button.ok= OK 
+button.cancel=中止
+button.top=先頭
+button.prev=前頁
+button.next=次頁
+button.last=最後
+
+msg.test.resource=リソースのテスト：＝(=)カンマ(,)タブ(	)
+
+BL.ClsName.ERR.P001=<span style="color:red; font-weight:bold;">{0}</span>でエラー、エラー処理には{1}を使います

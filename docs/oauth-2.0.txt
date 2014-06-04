@@ -1,0 +1,114 @@
+2012/05/29 Kac
+==========================================================
+
+Googleの新しいAPIはoauth-1.0では403になるようだ
+oauth-2.0への対応を行う
+
+以下、googleでの手順
+参考：https://developers.google.com/accounts/docs/OAuth2?hl=ja
+１．アプリを登録する
+　Product name: testruts
+　Google account: kacyan@gmail.com
+　Product logo: 
+
+　Application type: Service account
+
+Your private key's password is notasecret. You must present this password to use the key.
+
+There is only one copy of this key. You are responsible for downloading it and storing it securely. 
+
+Client ID: 	
+494593688356.apps.googleusercontent.com
+Email address: 	
+494593688356@developer.gserviceaccount.com
+Public key fingerprints: 	
+4ee681b7c654ad8fc8438cf9e77e4b19e627c4c2
+
+２．アクセストークンを取得する
+(1)googleの認可画面でOKすればcodeがリダイレクト経由で返ってくる
+(2)code,client_id,client_secretなどをgoogleに送るPOST
+(3)access_token,token,typeが返ってくる
+　http://www.sakimura.org/2012/02/1487/ に書いてあるような
+　access_tokenをリダイレクトで貰う事は無いみたいだ。
+　他のSPでは異なるのかなぁ
+
+３．アクセストークンを付加してAPIコール
+authorization: token_type access_token 
+という感じでリクエストヘッダーで送る
+
+※client_secretを送らないのか....
+
+４．アクセストークンを更新する(期限切れ)
+
+上記のClientIDではrequestURLがアンマッチでエラーになる
+別のClientIDを登録し requestURLも登録したら行けた、なんだ？
+ClientIDの削除も出来ない。。。
+
+googleのoauth-2.0は出来た
+サービス呼出も出来たが、データがjsonだ。
+・jsonを簡単に操作する方法を調べる。xpathみたいに。。。
+　JSONICを使ってみた。
+・他のoauth-2.0も試す。facebook,twitter
+
+2012/06/07 一旦まとめる。
+oauth-2.0は、1.0より簡単になった気がする
+シグネチャとか生成しなくて良くなったし
+反面、tokenを使用する時にsecretを付与しないのが気になる。
+これだとtokenの不正使用が可能ではないか？
+googleの場合だけかもしれないが、パラメータとして送るredirect_uriが登録されたURIと一致しないとエラーになる。
+この為、１client_idで１redirect_uriという事になる
+テスト用本番用で複数の登録が必要になる。
+
+クライアントプロファイル
+・ウェブサーバ
+　　通常のWEBアプリの事だと思われる
+・ユーザーエージェント
+　　ブラウザベースのアプリ(Ajax)のことか？
+・ネイティブアプリケーション
+　　クライアントアプリ
+・自律アプリケーション
+　　分からん？バッチとか？
+
+※ユーザエージェントの場合secretを使えない(秘匿できないから)
+　なのでいきなりトークンを取得出来たりするみたいだが、駄目だろそれ。
+　
+ウェブサーバ方式以外は信用しちゃだめだと思う。
+OAuth-2.0は改悪しちゃったと思うよ。
+
+[2012/06/14]
+accessTokenには有効期限がある expire_in 3600 １時間ということか？
+翌日保存したaccessTokenでサービス呼出すると403エラーになる
+refreshTokenを使ってaccessTokenを再取得する方法があるらしい -> access_type=offline
+ardbegでやってみると、id_token というのが返ってきた。名前違うのかぁ？
+oauth2.0の全体像をも少し知る必要がありそうだな。トホホ
+
+[2012/07/20]
+refresh_tokenでaccess_tokenを再取得し、再度サービスを呼出すという処理の流れはできた。
+既にportalに実装済。
+googleのoauth2はこれでいいだろう。
+facebookもoauth2らしいので、ためしてみた。
+１．アプリ登録はここ
+　https://developers.facebook.com/apps
+　[新しいアプリを作成]
+　App ID = client_id
+　App Secret = client_secret
+　Deauthorize Callback UR = redirect_uri
+　Website with Facebook LoginのサイトURL とドメイン名を合わせておく
+２．oauth要求はここ
+　https://www.facebook.com/dialog/oauth
+３．access_token取得はここ
+　https://graph.facebook.com/oauth/access_token
+【問題点】
+Facebookだと戻値は、JSONじゃない。chankデータだ
+それに項目も access_token と expiresしか無い
+なんだよプロバイダ毎に違うのかよ。。。せめてデータフォーマットは統一して欲しかったorz
+
+
+-----------------------------------------------------------------------
+
+[Google drive SDK]
+https://developers.google.com/drive/v2/reference/?hl=ja
+
+[Google API Console]
+https://code.google.com/apis/console/#project:494593688356
+

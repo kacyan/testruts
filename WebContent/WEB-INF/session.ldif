@@ -1,0 +1,16 @@
+dn: 
+objectClass: top
+objectClass: person
+objectClass: country
+objectClass: kscmUserObject
+objectClass: wsoUserObject
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: labeledURIObject
+objectClass: wsoSession
+objectClass: ipHost
+ipHostNumber: 172.16.10.3
+labeledURI: L2Rldi9ob3N0dC9URC9URE1TVHYxMlRVQWN0LmRv 20140513013738Z
+kscmCompanyNumber: 000000
+wsoCookie: WebSignOnKey; path=
+

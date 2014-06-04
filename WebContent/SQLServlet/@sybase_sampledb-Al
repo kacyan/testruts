@@ -1,0 +1,7 @@
+#jp.co.ksi.eip.commons.servlet.JndiSqlServlet
+#Tue Sep 20 15:40:20 JST 2011
+max=20
+resultSetType=1003
+resultSetConcurrency=1007
+jndi=java\:comp/env/jdbc/sybase.sampledb
+sql=select * from customer\r\nwhere fname\='Al'\r\n

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 2011/07/13 Kac ポートレット情報を取得する習作
+-->
+
+<request
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="PortalConfig_7.0.0.xsd"
+    type="export">
+
+    <!-- sample for exporting a page with portlet -->
+    <portal action="locate">
+    	<web-app action="export" uniquename="KacDebug"/>
+        <content-node action="export" uniquename="KacDebug"/>
+    </portal>
+</request>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="testruts" default="jar" basedir=".">
+
+	<property environment="env"/>
+	<property name="prj_ver" value="1.0.0" />
+	<property name="web_src" value="WebContent" />
+	<property name="war_dir" value="webapps" />
+	<property name="src" value="src"/>
+	<property name="cls" value="WebContent/WEB-INF/classes" />
+	<property name="doc" value="docs" />
+	<property name="lib" value="WebContent/WEB-INF/lib" />
+	<property name="extlib" value="extlib" />
+	<property name="dist" value="dist"/>
+
+	<!-- 2014/05/27 Kac for findbugs -->
+	<echo message="env.FINDBUGS_HOME=${env.FINDBUGS_HOME}"/>
+	<echo message="env.ANT_HOME=${env.ANT_HOME}"/>
+	<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" 
+			 classpath="${env.FINDBUGS_HOME}/lib/findbugs-ant.jar"/>
+	
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+  </target>
+
+	<target name="build" depends="init">
+		<mkdir dir="${cls}" />
+		<javac srcdir="${src}" destdir="${cls}" encoding="utf-8" debug="on" target="1.6" includeantruntime="false">
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${extlib}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+		<native2ascii encoding="utf-8" src="${src}" dest="${cls}" includes="**/*.properties" ext=".properties" />
+	</target>
+
+	<target name="findbugs" depends="build" description="findbugs">
+		<findbugs home="${env.FINDBUGS_HOME}" 
+				output="xml"
+				outputFile="${doc}/findbugs_report.xml">
+			<class location="${cls}"/>
+		</findbugs>
+	</target>
+	
+  <target name="jar" depends="init"
+    description="Create jar file to ${dist}" >
+    <!-- create manifest file -->
+    <mkdir dir="META-INF" />
+    <manifest file="${web_src}/META-INF/MANIFEST.MF">
+      <attribute name="Built-By" value="KSI"/>
+      <attribute name="Specification-Title" value="KSI commons"/>
+      <attribute name="Specification-Version" value="${prj_ver}"/>
+      <attribute name="Specification-Vendor" value="KSI"/>
+      <attribute name="Implementation-Title" value="KSI commons"/>
+      <attribute name="Implementation-Version" value="${DSTAMP}"/>
+      <attribute name="Implementation-Vendor" value="KSI"/>
+    </manifest>
+  	<!-- create jar file for supplier -->
+    <mkdir dir="${dist}"/>
+    <jar destfile="${dist}/eip-commons.jar"
+      basedir="${cls}"
+      includes="jp/co/ksi/eip/**"
+      excludes="**/CVS/**"
+      manifest="${web_src}/META-INF/MANIFEST.MF">
+    </jar>
+  </target>
+
+  <target name="war" depends="build"
+    description="Create jar file to ${dist}" >
+    <!-- create manifest file -->
+    <mkdir dir="META-INF" />
+    <manifest file="${web_src}/META-INF/MANIFEST.MF">
+      <attribute name="Built-By" value="KSI"/>
+      <attribute name="Specification-Title" value="KSI commons"/>
+      <attribute name="Specification-Version" value="${prj_ver}"/>
+      <attribute name="Specification-Vendor" value="KSI"/>
+      <attribute name="Implementation-Title" value="KSI commons"/>
+      <attribute name="Implementation-Version" value="${DSTAMP}"/>
+      <attribute name="Implementation-Vendor" value="KSI"/>
+    </manifest>
+  	<!-- create jar file for supplier -->
+    <mkdir dir="${war_dir}"/>
+    <war destfile="${war_dir}/testruts.war"
+      basedir="${web_src}"
+      excludes="**/CVS/**"
+      webxml="${web_src}/WEB-INF/web.xml"
+      manifest="${war_dir}/META-INF/MANIFEST.MF"
+      >
+    </war>
+  </target>
+
+	<!-- =================================
+          target: ardbeg/testruts.war
+         ================================= -->
+    <target name="ardbeg/testruts.war" depends="build" description="cerate ardbeg/testruts.war">
+    	<mkdir dir="${war_dir}/ardbeg/META-INF"/>
+        <manifest file="${war_dir}/ardbeg/META-INF/MANIFEST.MF">
+            <attribute name="Built-By" value="KSI"/>
+            <attribute name="Specification-Title" value="testruts"/>
+            <attribute name="Specification-Version" value="${prj_ver}"/>
+            <attribute name="Specification-Vendor" value="KSI"/>
+            <attribute name="Implementation-Title" value="testruts for ardbeg"/>
+            <attribute name="Implementation-Version" value="${DSTAMP}"/>
+            <attribute name="Implementation-Vendor" value="KSI"/>
+        </manifest>
+    	<war destfile="${war_dir}/ardbeg/testruts.war"
+    		basedir="${web_src}"
+    		excludes="**/CVS/**, **/web**.xml, META-INF/**, **/bbs*.properties, WEB-INF/jdbc/**"
+    		manifest="${war_dir}/ardbeg/META-INF/MANIFEST.MF"
+    		>
+    		<metainf dir="${war_dir}/ardbeg/META-INF" />
+    		<webinf dir="${war_dir}/ardbeg/WEB-INF" />
+    	</war>
+    </target>
+
+	<!-- =================================
+          target: bowmore/testruts.war
+         ================================= -->
+    <target name="bowmore/testruts.war" depends="build" description="cerate bowmore/testruts.war">
+    	<mkdir dir="${war_dir}/bowmore/META-INF"/>
+        <manifest file="${war_dir}/bowmore/META-INF/MANIFEST.MF">
+            <attribute name="Built-By" value="KSI"/>
+            <attribute name="Specification-Title" value="testruts"/>
+            <attribute name="Specification-Version" value="${prj_ver}"/>
+            <attribute name="Specification-Vendor" value="KSI"/>
+            <attribute name="Implementation-Title" value="testruts for bowmore"/>
+            <attribute name="Implementation-Version" value="${DSTAMP}"/>
+            <attribute name="Implementation-Vendor" value="KSI"/>
+        </manifest>
+    	<war destfile="${war_dir}/bowmore/testruts.war"
+    		basedir="${web_src}"
+    		excludes="**/CVS/**, **/web**.xml, META-INF/**, **/bbs*.properties, WEB-INF/jdbc/**"
+    		manifest="${war_dir}/bowmore/META-INF/MANIFEST.MF"
+    		>
+    		<metainf dir="${war_dir}/bowmore/META-INF" />
+    		<webinf dir="${war_dir}/bowmore/WEB-INF" />
+    	</war>
+    </target>
+
+	<target name="was7/testruts.war" depends="build" description="cerate was7/testruts.war">
+		<mkdir dir="${war_dir}/was7/META-INF"/>
+		<manifest file="${war_dir}/was7/META-INF/MANIFEST.MF">
+			<attribute name="Built-By" value="KSI"/>
+			<attribute name="Specification-Title" value="testruts"/>
+			<attribute name="Specification-Version" value="${prj_ver}"/>
+			<attribute name="Specification-Vendor" value="KSI"/>
+			<attribute name="Implementation-Title" value="testruts for was7"/>
+			<attribute name="Implementation-Version" value="${DSTAMP}"/>
+			<attribute name="Implementation-Vendor" value="KSI"/>
+		</manifest>
+		<war destfile="${war_dir}/was7/testruts.war"
+			basedir="${web_src}"
+			excludes="**/CVS/**, **/web**.xml, META-INF/**, **/**.properties, WEB-INF/jdbc/**"
+			manifest="${war_dir}/was7/META-INF/MANIFEST.MF"
+			>
+			<metainf dir="${war_dir}/was7/META-INF" />
+			<webinf dir="${war_dir}/was7/WEB-INF" />
+		</war>
+	</target>
+	
+	<!-- =================================
+          target: PORTAL4/testruts.war
+         ================================= -->
+    <target name="PORTAL4/testruts.war" depends="build" description="cerate PORTAL4/testruts.war">
+    	<mkdir dir="${war_dir}/PORTAL4/META-INF"/>
+        <manifest file="${war_dir}/PORTAL4/META-INF/MANIFEST.MF">
+            <attribute name="Built-By" value="KSI"/>
+            <attribute name="Specification-Title" value="testruts"/>
+            <attribute name="Specification-Version" value="${prj_ver}"/>
+            <attribute name="Specification-Vendor" value="KSI"/>
+            <attribute name="Implementation-Title" value="testruts for PORTAL4"/>
+            <attribute name="Implementation-Version" value="${DSTAMP}"/>
+            <attribute name="Implementation-Vendor" value="KSI"/>
+        </manifest>
+    	<war destfile="${war_dir}/PORTAL4/testruts.war"
+    		basedir="${web_src}"
+    		excludes="**/CVS/**, **/web**.xml, META-INF/**, **/bbs*.properties"
+    		manifest="${war_dir}/PORTAL4/META-INF/MANIFEST.MF"
+    		>
+    		<metainf dir="${war_dir}/PORTAL4/META-INF" />
+    		<webinf dir="${war_dir}/PORTAL4/WEB-INF" />
+    	</war>
+    </target>
+
+	<target name="dist-src" depends="jar" description="distoribute source ${dist_dir}">
+		<zip zipfile="${dist}/${ant.project.name}-src-${prj_ver}-${DSTAMP}.zip"
+			basedir="."
+			includes="**.*, .settings/**, ${src}/**, ${doc}/**, ${extlib}/**, ${web_src}/**, misc/**"
+		/>
+	</target>
+
+  <!-- dist -->
+  <target name="dist" depends="jar"
+    description="distoribute ${dist_dir}" >
+
+    <copy todir="${dist}/${ant.project.name}">
+      <fileset dir="."
+        includes="**.*, .settings/**, ${src}/**, ${doc}/**, ${extlib}/**, ${web_src}/**, ${war_dir}/**, misc/**" />
+    </copy>
+
+    <zip zipfile="${dist}/${ant.project.name}-${prj_ver}-${DSTAMP}.zip"
+         basedir="${dist}"
+         includes="${ant.project.name}/**/**.*" />
+    <delete dir="${dist}/${ant.project.name}" />
+
+  </target>
+
+</project>

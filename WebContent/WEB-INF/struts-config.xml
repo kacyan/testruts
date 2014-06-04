@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<!--
+     This is a blank Struts configuration file with an example
+     welcome action/page and other commented sample elements.
+
+     Struts Validator is configured using the factory defaults
+     and is ready-to-use.
+
+     NOTE: If you have a generator tool to create the corresponding Java classes
+     for you, you could include the details in the "form-bean" declarations.
+     Otherwise, you would only define the "form-bean" element itself, with the
+     corresponding "name" and "type" attributes, as shown here.
+-->
+
+
+<struts-config>
+
+
+<!-- ================================================ Form Bean Definitions -->
+
+    <form-beans>
+    <!-- sample form bean descriptor for an ActionForm
+        <form-bean
+            name="inputForm"
+            type="app.InputForm"/>
+    end sample -->
+
+		<form-bean name="DummyForm"
+				type="org.apache.struts.action.DynaActionForm">
+		</form-bean>
+		<form-bean name="UploadForm"
+				type="org.apache.struts.action.DynaActionForm">
+			<form-property name="file" type="org.apache.struts.upload.FormFile" />
+		</form-bean>
+		<form-bean name="TestForm"
+				type="jp.co.ksi.incubator.TestBean">
+		</form-bean>
+
+		<form-bean name="AddUserToGroupForm"
+				type="org.apache.struts.validator.DynaValidatorForm" >
+			<form-property name="groupdn" type="java.lang.String" />
+			<form-property name="userdn" type="java.lang.String[]" />
+			<form-property name="searchText" type="java.lang.String" />
+			<form-property name="start" type="int" initial="0"/>
+			<form-property name="max" type="int" initial="20"/>
+		</form-bean>
+		<form-bean name="AddGroupToUserForm"
+				type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="userdn" type="java.lang.String" />
+			<form-property name="groupdn" type="java.lang.String[]" />
+			<form-property name="searchText" type="java.lang.String" />
+			<form-property name="start" type="int" initial="0"/>
+			<form-property name="max" type="int" initial="20"/>
+		</form-bean>
+		<form-bean name="AddGroupToACLForm"
+				type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="acldn" type="java.lang.String" />
+			<form-property name="groupdn" type="java.lang.String[]" />
+			<form-property name="searchText" type="java.lang.String" />
+			<form-property name="start" type="int" initial="0"/>
+			<form-property name="max" type="int" initial="20"/>
+		</form-bean>
+		<form-bean name="sftpForm"
+				type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="host" type="java.lang.String" initial="bowmore.dev.ksi.co.jp"/>
+			<form-property name="port" type="int" initial="22"/>
+			<form-property name="uid" type="java.lang.String" />
+			<form-property name="pwd" type="java.lang.String" />
+			<form-property name="path" type="java.lang.String" />
+		</form-bean>
+		<!-- 2012/05/15 for GetRss -->
+		<form-bean name="getRss"
+				type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="serviceURL" type="java.lang.String" />
+		</form-bean>
+		<!-- 2012/05/24 for getRssOAuth -->
+		<form-bean name="getRssOAuth"
+				type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="serviceURL" type="java.lang.String" />
+			<form-property name="oauthName" type="java.lang.String" />
+		</form-bean>
+<!-- sample form bean descriptor for a DynaActionForm
+        <form-bean name="logonForm"
+            type="org.apache.struts.action.DynaActionForm">
+            <form-property
+                name="username"
+                type="java.lang.String"/>
+            <form-property
+                name="password"
+                type="java.lang.String"/>
+       </form-bean>
+ end sample -->
+    </form-beans>
+
+
+<!-- ========================================= Global Exception Definitions -->
+
+    <global-exceptions>
+        <!-- sample exception handler
+        <exception
+            key="expired.password"
+            type="app.ExpiredPasswordException"
+            path="/changePassword.jsp"/>
+        end sample -->
+    </global-exceptions>
+
+
+<!-- =========================================== Global Forward Definitions -->
+
+    <global-forwards>
+        <forward name="invoke.failed" path="/error.jsp" />
+        <forward name="token.failed" path="/errorToken.jsp" />
+        <forward name="APL_ERR" path="/error.jsp" />
+        <forward name="APL_ABEND" path="/error.jsp" />
+        <forward name="error.auth" path="/errorAuth.jsp" />
+        <forward name="error.connect" path="/error.jsp" />
+        <forward name="debug" path="/check.jsp" />
+    </global-forwards>
+
+
+<!-- =========================================== Action Mapping Definitions -->
+
+    <action-mappings>
+            <!-- Default "Welcome" action -->
+            <!-- Forwards to Welcome.jsp -->
+
+        <action path="/sftp/ls"
+            type="jp.co.ksi.eip.commons.struts.InvokeAction"
+            parameter="jp.co.ksi.incubator.jcraft.SftpLsBL"
+            name="sftpForm"
+            scope="request"
+            >
+            <forward name="APL_OK" path="/sftp/ls.jsp" />
+            <forward name="APL_ERR" path="/sftp/ls.jsp" />
+        </action>
+        <action path="/sftp/get"
+            type="jp.co.ksi.eip.commons.struts.DownloadAction"
+            parameter="jp.co.ksi.incubator.jcraft.SftpGetBL"
+            name="sftpForm"
+            scope="request"
+            >
+            <forward name="APL_OK" path="/" />
+        </action>
+        <action path="/sftp/put"
+            type="jp.co.ksi.eip.commons.struts.InvokeAction"
+            parameter="jp.co.ksi.incubator.jcraft.SftpPutBL"
+            name="UploadForm"
+            scope="request"
+            >
+            <forward name="APL_OK" path="/sftp/ls.do" />
+        </action>
+        <action path="/sftp/operate"
+            type="jp.co.ksi.eip.commons.struts.DispatchAction"
+            scope="request"
+			name="UploadForm"
+			>
+			<forward name="submit.ls" path="/sftp/ls.do" />
+			<forward name="submit.get" path="/sftp/get.do" />
+			<forward name="submit.put" path="/sftp/put.do" />
+		</action>
+
+		<!-- 2013/04/11 for SAP-WSO-Test -->
+		<action path="/wso"
+				type="jp.co.ksi.eip.commons.struts.DebugAction"
+				>
+				<forward name="APL_OK" path="/check.jsp" />
+		</action>
+
+		<!-- 2012/05/24 for GetRss -->
+		<action path="/rss"
+				type="jp.co.ksi.eip.commons.struts.InvokeAction"
+				parameter="jp.co.ksi.testruts.bl.GetRssOAuth"
+				scope="request"
+				name="getRssOAuth"
+				>
+				<forward name="APL_OK" path="/rss.jsp" />
+				<forward name="APL_ERR" path="/rss.jsp" />
+		</action>
+
+		<!-- グループへのユーザ追加画面 -->
+		<action path="/searchUserGroup"
+				type="jp.co.ksi.eip.commons.struts.InvokeAction"
+				parameter="jp.co.ksi.testruts.bl.SearchUserGroup"
+				scope="request"
+				name="AddUserToGroupForm"
+				>
+				<forward name="APL_OK" path="/addUserToGroup.jsp" />
+		</action>
+		<!-- グループへのユーザ追加 -->
+		<action path="/addUserToGroup"
+				type="jp.co.ksi.eip.commons.struts.DebugAction"
+				parameter="jp.co.ksi.testruts.bl.AddUserToGroup"
+				scope="request"
+				name="AddUserToGroupForm"
+				>
+				<forward name="APL_OK" path="/searchUserGroup.do" />
+		</action>
+		<action path="/addGroupToUser"
+				type="jp.co.ksi.eip.commons.struts.DebugAction"
+				parameter="jp.co.ksi.testruts.AddGroupToUser"
+				scope="request"
+				name="AddGroupToUserForm"
+				>
+				<forward name="APL_OK" path="/check.jsp" />
+		</action>
+        <action path="/test"
+            type="jp.co.ksi.eip.commons.struts.DebugAction"
+            parameter=""
+            scope="request"
+            name="TestForm"
+            >
+            <forward name="APL_OK" path="/classloader.jsp" />
+        </action>
+        <action path="/testUpload"
+            type="jp.co.ksi.eip.commons.struts.DebugAction"
+            parameter=""
+            scope="request"
+            name="UploadForm"
+            >
+            <forward name="APL_OK" path="/classloader.jsp" />
+        </action>
+        <action path="/testConfirm"
+            type="jp.co.ksi.eip.commons.struts.CheckTokenAction"
+            parameter="jp.co.ksi.webmail.bl.DummyBL"
+            scope="request"
+            name="DummyForm"
+            >
+            <forward name="APL_OK" path="/test.jsp" />
+        </action>
+
+		<action path="/switchAction"
+				type="org.apache.struts.actions.SwitchAction" />
+		
+    </action-mappings>
+
+
+  <!--  2011/04/08
+  <controller processorClass="jp.co.ksi.eip.commons.struts.VirtualRequestProcessor">
+  </controller>
+  -->
+
+<!-- ======================================== Message Resources Definitions -->
+
+    <message-resources parameter="jp.co.ksi.testruts.Resources"
+                       factory="jp.co.ksi.eip.commons.struts.KsiMessageResourcesFactory"/>
+
+
+<!-- =============================================== Plug Ins Configuration -->
+
+  <!-- ======================================================= Tiles plugin -->
+  <!--
+     This plugin initialize Tiles definition factory. This later can takes some
+	 parameters explained here after. The plugin first read parameters from
+	 web.xml, thenoverload them with parameters defined here. All parameters
+	 are optional.
+     The plugin should be declared in each struts-config file.
+       - definitions-config: (optional)
+            Specify configuration file names. There can be several comma
+		    separated file names (default: ?? )
+       - moduleAware: (optional - struts1.1)
+            Specify if the Tiles definition factory is module aware. If true
+            (default), there will be one factory for each Struts module.
+			If false, there will be one common factory for all module. In this
+            later case, it is still needed to declare one plugin per module.
+            The factory will be initialized with parameters found in the first
+            initialized plugin (generally the one associated with the default
+            module).
+			  true : One factory per module. (default)
+			  false : one single shared factory for all modules
+	   - definitions-parser-validate: (optional)
+	        Specify if xml parser should validate the Tiles configuration file.
+			  true : validate. DTD should be specified in file header (default)
+			  false : no validation
+
+	  Paths found in Tiles definitions are relative to the main context.
+
+      To use this plugin, download and add the Tiles jar to your WEB-INF/lib
+      directory then uncomment the plugin definition below.
+
+    <plug-in className="org.apache.struts.tiles.TilesPlugin" >
+
+      <set-property property="definitions-config"
+                       value="/WEB-INF/tiles-defs.xml" />
+      <set-property property="moduleAware" value="true" />
+    </plug-in>
+  -->
+
+
+  <!-- =================================================== Validator plugin -->
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+    <set-property
+        property="pathnames"
+        value="/org/apache/struts/validator/validator-rules.xml,/WEB-INF/kacValidator-rules.xml,
+               /WEB-INF/validation.xml"/>
+  </plug-in>
+
+</struts-config>
+

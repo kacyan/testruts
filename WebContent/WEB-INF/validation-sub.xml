@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+     "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.3.0//EN"
+     "http://jakarta.apache.org/commons/dtds/validator_1_3_0.dtd">
+
+<form-validation>
+
+    <global>
+
+        <!-- An example global constant
+        <constant>
+            <constant-name>postalCode</constant-name>
+            <constant-value>^\d{5}\d*$</constant-value>
+        </constant>
+        end example-->
+
+    </global>
+
+	<formset>
+		
+		<form name="/test1">
+			<field property="result" depends="required">
+				<msg name="required" key="BL.ERR.PARAM"/>
+				<arg key="label.parameter"/>
+			</field>
+		</form>
+		<form name="/test2">
+			<field property="result" depends="required">
+				<msg name="required" key="BL.ERR.PARAM"/>
+				<arg key="label.parameter"/>
+			</field>
+			<field property="param1" depends="mask">
+				<msg name="mask" key="BL.ERR.PARAM"/>
+				<arg key="label.param1"/>
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-zA-Z]*$</var-value>
+				</var>
+			</field>
+			<field property="param2" depends="mask">
+				<msg name="mask" key="BL.ERR.PARAM"/>
+				<arg key="label.param2"/>
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[0-9]*$</var-value>
+				</var>
+			</field>
+		</form>
+	</formset>
+
+</form-validation>

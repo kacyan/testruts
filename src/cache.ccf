@@ -1,0 +1,17 @@
+# JCS config file
+# 2011/12/09
+
+jcs.default=
+jcs.default.cacheattributes=org.apache.jcs.engine.CompositeCacheAttributes
+jcs.default.cacheattributes.MaxObjects=5
+jcs.default.cacheattributes.MemoryCacheName=org.apache.jcs.engine.memory.lru.LRUMemoryCache
+
+#jcs.default.cacheattributes.UseMemoryShrinker=true
+#jcs.default.cacheattributes.MaxMemoryIdleTimeSeconds=3600
+#jcs.default.cacheattributes.ShrinkerIntervalSeconds=60
+#jcs.default.cacheattributes.MaxSpoolPerRun=500
+
+jcs.default.elementattributes=org.apache.jcs.engine.ElementAttributes
+jcs.default.elementattributes.IsEternal=false
+jcs.default.elementattributes.MaxLifeSeconds=30
+jcs.default.elementattributes.IsEternal=false

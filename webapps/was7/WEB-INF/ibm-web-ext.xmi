@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.ibm.ejs.models.base.extensions.webappext:WebAppExtension xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.ibm.ejs.models.base.extensions.webappext="webappext.xmi" xmi:id="WebAppExtension_1399529990624">
+  <webApp href="WEB-INF/web.xml#WebApp_1399529990624"/>
+  <jspAttributes xmi:id="JSPAttribute_1399529990625" name="reloadEnabled" value="true"/>
+  <jspAttributes xmi:id="JSPAttribute_1399529990626" name="reloadInterval" value="10"/>
+  <jspAttributes xmi:id="JSPAttribute_1399529990627" name="keepgenerated" value="true"/>
+</com.ibm.ejs.models.base.extensions.webappext:WebAppExtension>

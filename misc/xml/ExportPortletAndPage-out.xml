@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IBM WebSphere Portal/7.0 build wpnext_528_01 exported on Wed Jul 13 18:22:40 JST 2011 from centos56.vmnet.ksi.co.jp/127.0.0.1 -->
+<request build="wpnext_528_01" type="update" version="7.0.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PortalConfig_7.0.0.xsd">
+    <status element="[web-app uniquename=KacDebug]" result="failed">
+        <message id="EJPXA0025E">com.ibm.wps.command.xml.XmlCommandException: EJPXA0025E: リソースがポータル内で見つかりませんでした。リソースが存在しないか、または XML 入力で識別用の属性が指定されていません。 [web-app uniquename=KacDebug]</message>
+    </status>
+</request>

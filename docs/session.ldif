@@ -1,0 +1,44 @@
+version: 1
+
+dn: wsoSID=U3F3MKwQWn4AAG6kAVM,cn=wso3.os.ksi.co.jp,ou=Sessions,o=WebSignOn,
+ c=JP
+objectClass: top
+objectClass: person
+objectClass: country
+objectClass: kscmUserObject
+objectClass: wsoUserObject
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: labeledURIObject
+objectClass: wsoSession
+objectClass: ipHost
+c: JP
+cn: %E7%89%A7%E6%9C%AC%20%E7%B4%80%E5%AD%90
+ipHostNumber: 172.16.10.3
+sn: makimoto
+wsoAccessTime: 20140513013738Z
+wsoAuthTime: 20140513013648Z
+wsoSID: U3F3MKwQWn4AAG6kAVM
+wsoUser: uid=s982003,ou=People,ou=Master,o=WebSignOn,c=JP
+kscmCompanyNumber: 000000
+kscmDepartmentBranch: 0
+kscmDepartmentName: %EF%BC%AB%EF%BC%B3%EF%BC%A9%EF%BC%88%E6%A0%AA%EF%BC%89
+kscmDepartmentNumber: KSI
+kscmEmployeeTypeNumber: KBT
+kscmHeadquarterName: %EF%BC%AB%EF%BC%B3%EF%BC%A9%EF%BC%88%E6%A0%AA%EF%BC%89
+kscmOfficeName: %E6%9C%AC%E7%A4%BE
+kscmOfficeNumber: 01
+labeledURI: L2Rldi9ob3N0dC9URC9URE1TVHYxMlRVQWN0LmRv 20140513013738Z
+mail: null
+userPassword:: e1NIQX00RVNmV0pPbm8zY0FjM1BQcGJVRHFyUDFvVDA9
+wsoCookie: WebSignOnKey; path=
+wsoCookie: WebSignOnKey; path=/dev/hostt/TD
+wsoCookie: WebSignOnKey; path=/k-spirit-test
+wsoCookie: WebSignOnKey; path=/espress
+wsoCookie: JSESSIONID; path=/portal
+wsoCookie: WebSignOnURI; path=/portal
+wsoCookie: JSESSIONID; path=/dev/hostt/TD
+wsoCookie: WebSignOnURI; path=/dev/hostt/TD
+wsoLastLogin: 20140512065006Z
+wsoLoginTime: 20140513013648Z
+

@@ -1,0 +1,3 @@
+
+java -cp .;../lib/log4j-1.2.14.jar;../lib/eip.jar jp.co.ksi.incubator.LdapUpdate uid=hoge,ou=People,ou=Master,o=WebSignOn,c=JP
+

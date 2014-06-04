@@ -1,0 +1,7 @@
+#jp.co.ksi.commons.servlet.JndiSqlServlet
+#Wed Nov 17 08:34:01 JST 2010
+max=200
+resultSetType=1004
+resultSetConcurrency=1007
+jndi=java\:comp/env/jdbc/javadb.sample1
+sql=select sys.SYSTABLES.*, sys.SYSSCHEMAS.SCHEMANAME\r\nfrom sys.SYSSCHEMAS, sys.SYSTABLES\r\nwhere sys.SYSSCHEMAS.SCHEMAID\=sys.SYSTABLES.SCHEMAID\r\nand sys.SYSTABLES.TABLETYPE\='T'

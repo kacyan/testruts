@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.7.1
+Created-By: 19.0-b09 (Sun Microsystems Inc.)
+Built-By: KSI
+Specification-Title: testruts
+Specification-Version: 1.0.0
+Specification-Vendor: KSI
+Implementation-Title: testruts for PORTAL4
+Implementation-Version: 20110125
+Implementation-Vendor: KSI
+

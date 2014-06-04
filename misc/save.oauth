@@ -1,0 +1,15 @@
+#OAuth
+#Tue May 29 18:32:00 JST 2012
+consumer_secret=
+oauth_callback=
+accessTokenURL=
+requestTokenURL=
+oauth_token=
+version=1.0
+authorizeTokenURL=
+oauth_verifier=
+oauth_token_secret=
+consumer_key=consumer_key
+oauth_nonce=1487a7449f43d654e7fdcadad9f08448
+scope=
+xoauth_request_auth_url=?oauth_token\=

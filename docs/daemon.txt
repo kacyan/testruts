@@ -1,0 +1,56 @@
+SessionListenerを使ったデーモンの実現方法
+2010/01/06 Kac
+======================================================================
+
+[実現案１]
+1.DaemonServletのinit()
+　設定ファイルを読込みDaemonInfoを生成しcontextにセットする
+　別スレッドを起こしDaemonServletにリクエストを送信する
+
+2.DaemonServletのservice()
+　リクエストを受付け、DaemonListenerをsessionにセットする
+
+3.DaemonListenerのonBounds()
+　DaemonInfoからタスク・パラメータ・スケジュールを取得し
+　所定タスク(IBatchModel)をinvokeする
+
+4.DaemonListenerのonUnBounds()
+　DaemonServletにリクエストを送信する
+　->2に戻る
+
+[実現案２]
+1.DaemonServletのinit()
+　設定ファイルを読込みDaemonInfoを生成しcontextにセットする
+　別スレッドを起こし、DaemonInfoに従い、DaemonActionにリクエストを送信する
+
+2.DaemonInvokeActionのexecute()
+　リクエストを受付け、DaemonListenerをsessionにセットする
+　ActionMappingからタスクを取得し
+　所定のBL(IStruts)をinvokeする
+　
+3.DaemonListenerのonUnBounds()
+　DaemonInfoに従い、DaemonActionにリクエストを送信する
+　->1に戻る
+
+[実現案３]
+1.DaemonServletのinit()
+　設定ファイルを読込みDaemonInfoを生成しcontextにセットする
+　別スレッドを起こし、DaemonInfoに従い、DaemonActionにリクエストを送信する
+
+2.DaemonDispatchActionのexecute()
+　リクエストを受付け、DaemonListenerをsessionにセットする
+　リクエストに従い所定のactionにforwardする
+　
+3.DaemonListenerのonUnBounds()
+　DaemonInfoに従い、DaemonActionにリクエストを送信する
+　->1に戻る
+
+案１は、DaemonListenerの実行時にタスクの制御を行う
+　タスクの定義は独自
+案２案３は、DaemonListenerのリクエスト送信時にタスクの制御を行う
+　タスクの定義はstruts-config.xml
+案２案３は、strutsとの親和性が高い反面、依存度も高い
+
+スケジュールとパラメータをstruts-config.xmlで定義するのは難しいし汎用性に欠ける
+案１でよいのではないか？
+

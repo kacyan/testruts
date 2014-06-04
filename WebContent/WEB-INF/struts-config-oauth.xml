@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+<!-- ================================================ Form Bean Definitions -->
+
+	<form-beans>
+
+		<form-bean name="OAuthForm" type="org.apache.struts.action.DynaActionForm" >
+			<form-property name="consumer_key" type="java.lang.String" initial="dj0yJmk9ODhNZm9hOGtsZVZPJmQ9WVdrOU5YQXhWbXhVTjJrbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD01Nw--"/>
+			<form-property name="consumer_secret" type="java.lang.String" initial="2f04a4a0505fed0f1ac5f9222339d631cb658240"/>
+			<form-property name="oauth_callback" type="java.lang.String" initial="oob"/>
+			<form-property name="oauth_token" type="java.lang.String" initial=""/>
+			<form-property name="oauth_verifier" type="java.lang.String" initial=""/>
+			<form-property name="requestTokenURL" type="java.lang.String" initial="https://auth.login.yahoo.co.jp/oauth/v2/get_request_token"/>
+			<form-property name="authorizeTokenURL" type="java.lang.String" initial=""/>
+			<form-property name="accessTokenURL" type="java.lang.String" initial="https://auth.login.yahoo.co.jp/oauth/v2/get_request_token"/>
+			<form-property name="scope" type="java.lang.String" initial=""/>
+		</form-bean>
+		<form-bean name="OAuthCallServiceForm" type="org.apache.struts.action.DynaActionForm" >
+			<form-property name="consumer_key" type="java.lang.String" initial=""/>
+			<form-property name="consumer_secret" type="java.lang.String" initial=""/>
+			<form-property name="oauth_token" type="java.lang.String" initial=""/>
+			<form-property name="oauth_token_secret" type="java.lang.String" initial=""/>
+			<form-property name="serviceURL" type="java.lang.String" initial=""/>
+		</form-bean>
+
+	</form-beans>
+
+<!-- ========================================= Global Exception Definitions -->
+
+<!-- =========================================== Global Forward Definitions -->
+
+<!-- =========================================== Action Mapping Definitions -->
+
+	<action-mappings>
+		
+		<!-- OAuthDataに必要な値をセットする -->
+		<action path="/oauth/init"
+			type="org.apache.struts.actions.ForwardAction"
+			parameter="/oauth/oauth.jsp"
+			scope="request" 
+			name="OAuthForm"
+			>
+		</action>
+		<!-- リクエスト・トークンを取得する -->
+		<action path="/oauth/getRequestToken"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.oauth.GetRequestToken"
+			scope="request"
+			name="OAuthForm"
+			>
+			<forward name="APL_OK" path="/oauth/oauthRedirect.jsp"/>
+		</action>
+		<!-- アクセス・トークンを取得する -->
+		<action path="/oauth/getAccessToken"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.oauth.GetAccessToken"
+			scope="request"
+			name="OAuthForm"
+			>
+			<forward name="APL_OK" path="/oauth/oauthResult.jsp"/>
+		</action>
+		<!-- サービスを呼び出す -->
+		<action path="/oauth/callService"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.oauth.CallService"
+			scope="request"
+			name="OAuthCallServiceForm"
+			>
+			<forward name="APL_OK" path="/oauth/callResult.jsp"/>
+			<forward name="APL_ERR" path="/oauth/callResult.jsp"/>
+			<forward name="APL_ABEND" path="/oauth/callResult.jsp"/>
+		</action>
+		<!-- RSSサービスを呼び出す -->
+		<action path="/oauth/rss"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.oauth.CallServiceRss"
+			scope="request"
+			name="OAuthCallServiceForm"
+			>
+			<forward name="APL_OK" path="/oauth/rss.jsp"/>
+			<forward name="APL_ERR" path="/oauth/rss.jsp"/>
+		</action>
+		<!-- トークンを保存する -->
+		<action path="/oauth/saveToken"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.oauth.SaveToken"
+			scope="request"
+			name="DummyForm"
+			>
+			<forward name="APL_OK" path="/oauth/" redirect="true"/>
+		</action>
+		<!-- トークンを読み込む -->
+		<action path="/oauth/loadToken"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.oauth.LoadToken"
+			scope="request"
+			name="DummyForm"
+			>
+			<forward name="APL_OK" path="/oauth/oauthResult.jsp"/>
+		</action>
+		<!-- gmail feed のテスト -->
+		<action path="/oauth/gmail"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.oauth.GetOAuthRSS"
+			scope="request"
+			name="OAuthCallServiceForm"
+			>
+			<forward name="APL_OK" path="/oauth/rss.jsp"/>
+			<forward name="APL_ERR" path="/oauth/rss.jsp"/>
+		</action>
+		
+	</action-mappings>
+
+<!-- ======================================== Message Resources Definitions -->
+
+<!-- =============================================== Plug Ins Configuration -->
+
+<!-- ======================================================= Tiles plugin -->
+
+<!-- =================================================== Validator plugin -->
+
+</struts-config>
+

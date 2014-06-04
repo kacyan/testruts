@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+    version="2.4">
+
+  <display-name>Testruts for was7</display-name>
+
+  <context-param>
+   <description>properties</description>
+   <param-name>properties</param-name>
+   <param-value>/WEB-INF/testruts.properties</param-value>
+  </context-param>
+
+  <filter>
+    <filter-name>SetCharacterEncoding</filter-name>
+    <filter-class>jp.co.ksi.eip.commons.servlet.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+  </filter>
+  <filter>
+    <filter-name>RemoteUser</filter-name>
+    <filter-class>jp.co.ksi.eip.commons.servlet.BasicRemoteUserFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>SetCharacterEncoding</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>RemoteUser</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+<!-- EIP 2.0 -->
+
+  <!-- Listener configuration -->
+  <listener>
+   <listener-class>jp.co.ksi.eip.commons.servlet.InitContextListener</listener-class>
+  </listener>
+
+  <servlet>
+    <servlet-name>action</servlet-name>
+    <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+    <init-param>
+      <param-name>config</param-name>
+      <param-value>/WEB-INF/struts-config.xml, /WEB-INF/struts-config-oauth.xml</param-value>
+    </init-param>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+  <servlet>
+    <display-name>SQLServlet</display-name>
+    <servlet-name>SQLServlet</servlet-name>
+    <servlet-class>jp.co.ksi.eip.commons.servlet.JndiSqlServlet</servlet-class>
+  </servlet>
+
+  <!-- Standard Action Servlet Mapping -->
+  <servlet-mapping>
+    <servlet-name>action</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SQLServlet</servlet-name>
+    <url-pattern>/SQLServlet</url-pattern>
+  </servlet-mapping>
+
+  <session-config>
+   <session-timeout>10</session-timeout>
+  </session-config>
+
+  <!-- The Usual Welcome File List -->
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+
+ <jsp-config>
+  <taglib>
+    <taglib-uri>eip.tld</taglib-uri>
+    <taglib-location>/WEB-INF/tld/eip.tld</taglib-location>
+  </taglib>
+  <taglib>
+    <taglib-uri>ksi.tld</taglib-uri>
+    <taglib-location>/WEB-INF/tld/ksi.tld</taglib-location>
+  </taglib>
+  <taglib>
+    <taglib-uri>struts-bean.tld</taglib-uri>
+    <taglib-location>/WEB-INF/tld/struts-bean.tld</taglib-location>
+  </taglib>
+  <taglib>
+    <taglib-uri>struts-html.tld</taglib-uri>
+    <taglib-location>/WEB-INF/tld/struts-html.tld</taglib-location>
+  </taglib>
+  <taglib>
+    <taglib-uri>struts-logic.tld</taglib-uri>
+    <taglib-location>/WEB-INF/tld/struts-logic.tld</taglib-location>
+  </taglib>
+  <taglib>
+    <taglib-uri>struts-nested.tld</taglib-uri>
+    <taglib-location>/WEB-INF/tld/struts-nested.tld</taglib-location>
+  </taglib>
+ </jsp-config>
+
+<!--
+  <resource-ref>
+    <res-ref-name>jdbc/dalmore.sample</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+  <resource-ref>
+    <res-ref-name>jdbc/devdb02.KAPSDEV</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+ -->
+
+</web-app>

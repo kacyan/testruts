@@ -1,0 +1,7 @@
+#jp.co.ksi.commons.servlet.JndiSqlServlet
+#Fri Aug 27 11:59:18 JST 2010
+max=30
+resultSetType=1004
+resultSetConcurrency=1007
+jndi=java\:comp/env/jdbc/javadb.sample1
+sql=select tablename from sys.systables

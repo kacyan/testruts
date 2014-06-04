@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+<!-- ================================================ Form Bean Definitions -->
+
+	<form-beans>
+
+		<form-bean name="OAuth2Form" type="org.apache.struts.action.DynaActionForm" >
+			<form-property name="serviceURL" type="java.lang.String" initial=""/>
+			<form-property name="authURL" type="java.lang.String" initial=""/>
+			<form-property name="tokenURL" type="java.lang.String" initial=""/>
+			<form-property name="response_type" type="java.lang.String" initial=""/>
+			<form-property name="client_id" type="java.lang.String" initial=""/>
+			<form-property name="client_secret" type="java.lang.String" initial=""/>
+			<form-property name="redirect_uri" type="java.lang.String" initial="http://ticket.os.ksi.co.jp/testruts/oauth2/getAccessToken.do"/>
+			<form-property name="scope" type="java.lang.String" initial=""/>
+			<form-property name="state" type="java.lang.String" initial=""/>
+			<form-property name="approval_prompt" type="java.lang.String" initial=""/>
+			<form-property name="access_type" type="java.lang.String" initial=""/>
+			<form-property name="code" type="java.lang.String" initial=""/>
+			<form-property name="grant_type" type="java.lang.String" initial=""/>
+		</form-bean>
+		<form-bean name="GoogleCalendarForm" type="org.apache.struts.action.DynaActionForm" >
+			<form-property name="calendarId" type="java.lang.String" initial=""/>
+			<form-property name="maxResults" type="java.lang.String" initial=""/>
+			<form-property name="orderBy" type="java.lang.String" initial=""/>
+			<form-property name="singleEvents" type="java.lang.String" initial=""/>
+			<form-property name="timeMin" type="java.lang.String" initial=""/>
+			<form-property name="timeMax" type="java.lang.String" initial=""/>
+		</form-bean>
+		<form-bean name="serviceForm" type="org.apache.struts.action.DynaActionForm">
+			<form-property name="sid" type="java.lang.String" initial="googleCalendar"/>
+		</form-bean>
+		<form-bean name="codeForm" type="org.apache.struts.action.DynaActionForm">
+			<form-property name="code" type="java.lang.String" initial=""/>
+			<form-property name="state" type="java.lang.String" initial=""/>
+		</form-bean>
+		<form-bean name="googleCalendarConfigForm" type="org.apache.struts.action.DynaActionForm" >
+			<form-property name="sid" type="java.lang.String" initial=""/>
+			<form-property name="calendarId" type="java.lang.String" initial=""/>
+			<form-property name="maxResults" type="java.lang.String" initial=""/>
+			<form-property name="orderBy" type="java.lang.String" initial=""/>
+			<form-property name="singleEvents" type="java.lang.String" initial=""/>
+			<form-property name="period" type="java.lang.String" initial=""/>
+		</form-bean>
+
+	</form-beans>
+
+<!-- ========================================= Global Exception Definitions -->
+
+<!-- =========================================== Global Forward Definitions -->
+
+<!-- =========================================== Action Mapping Definitions -->
+
+	<action-mappings>
+		
+		<!-- oauthをセッションに保存し、authURLへのリンクを生成する -->
+		<action path="/oauth2/init"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.oauth2.Init"
+			scope="request"
+			name="OAuth2Form"
+			>
+			<forward name="APL_OK" path="/oauth2/oauth.jsp"/>
+		</action>
+		<!-- アクセス・トークンを取得する -->
+		<action path="/oauth2/getAccessToken"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.oauth2.GetAccessToken"
+			scope="request"
+			name="OAuth2Form"
+			>
+			<forward name="APL_OK" path="/oauth2/oauthResult.jsp"/>
+			<forward name="APL_ABEND" path="/oauth2/index.jsp"/>
+		</action>
+		<!-- リフレッシュトークンでアクセス・トークンを取得する -->
+		<action path="/oauth2/refreshAccessToken"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.oauth2.RefreshAccessToken"
+			scope="request"
+			name="OAuth2Form"
+			>
+			<forward name="APL_OK" path="/oauth2/callService.do"/>
+			<forward name="APL_ABEND" path="/oauth2/index.jsp"/>
+		</action>
+		<!-- サービスを呼び出す -->
+		<action path="/oauth2/callService"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.oauth2.CallService"
+			scope="request"
+			name="OAuth2Form"
+			>
+			<forward name="APL_OK" path="/oauth2/callResult.jsp"/>
+			<forward name="APL_ERR" path="/oauth2/callResult.jsp"/>
+			<forward name="APL_ABEND" path="/oauth2/callResult.jsp"/>
+		</action>
+		<!-- GoogleCalendarのEventsList 2012/06/21:APL_ERR_401を追加してみた -->
+		<action path="/oauth2/googleCalendar"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.oauth2.ListGoogleCalendarEvents"
+			scope="request"
+			name="GoogleCalendarForm"
+			>
+			<forward name="APL_OK" path="/oauth2/googleCalendar.jsp"/>
+			<forward name="APL_ERR_401" path="/oauth2/googleCalendar2.do"/>
+			<forward name="APL_ERR" path="/oauth2/googleCalendar.jsp"/>
+		</action>
+		<!-- GoogleCalendar用OAuth再取得 2012/06/21:refresh=trueを追加してみた -->
+		<action path="/oauth2/googleCalendar2"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.oauth2.RefreshAccessToken"
+			scope="request"
+			name="GoogleCalendarForm"
+			>
+			<forward name="APL_OK" path="/oauth2/googleCalendar.do?refresh=true"/>
+			<forward name="APL_ERR" path="/oauth2/googleCalendar.jsp"/>
+		</action>
+
+<!-- ============================================================ -->
+<!-- ========== GoogleCalendarPortletの習作 ===================== -->
+<!-- ============================================================ -->
+		<!-- ポートレット用OAuthリクエスト発行 -->
+		<action path="/portlet/oauthRequest"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.portlet.GetOAuthConfig"
+			scope="request"
+			name="serviceForm"
+			>
+			<forward name="APL_OK" path="/portlet/oauthRequest.jsp"/>
+		</action>
+		<!-- ポートレット用OAuth取得 -->
+		<action path="/portlet/getAccessToken"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.portlet.GetAccessToken"
+			scope="request"
+			name="codeForm"
+			>
+			<forward name="APL_OK" path="/portlet/redirectService.jsp"/>
+		</action>
+		<!-- ポートレット用OAuth再取得 -->
+		<action path="/portlet/refreshAccessToken"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.portlet.RefreshAccessToken"
+			scope="request"
+			name="serviceForm"
+			>
+			<forward name="APL_OK" path="/portlet/redirectService.jsp"/>
+		</action>
+		<!-- GoogleCalendarポートレット用サービス呼出 -->
+		<action path="/portlet/googleCalendarEventsList"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.portlet.GoogleCalendarEventsList"
+			scope="request"
+			name="serviceForm"
+			>
+			<forward name="APL_OK" path="/portlet/googleCalendarPortlet.jsp"/>
+			<forward name="APL_ERR_401" path="/portlet/refreshAccessToken.do"/>
+			<forward name="APL_ERR" path="/portlet/googleCalendarPortlet.jsp"/>
+		</action>
+		<!-- Facebookポートレット用サービス呼出 -->
+		<action path="/portlet/facebook"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.portlet.Facebook"
+			scope="request"
+			name="serviceForm"
+			>
+			<forward name="APL_OK" path="/portlet/facebook.jsp"/>
+			<forward name="APL_ERR_401" path="/portlet/refreshAccessToken.do"/>
+		</action>
+		<action path="/portlet/facebookPhoto"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.portlet.FacebookPhoto"
+			scope="request"
+			name="serviceForm"
+			>
+			<forward name="APL_OK" path="/portlet/facebook.jsp"/>
+			<forward name="APL_ERR_401" path="/portlet/refreshAccessToken.do"/>
+		</action>
+		<!-- GoogleCalendarポートレットの設定(読込) -->
+		<action path="/portlet/googleCalendarEventsList.LoadConfig"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.portlet.LoadServiceParam"
+			scope="request"
+			name="googleCalendarConfigForm"
+			>
+			<forward name="APL_OK" path="/portlet/googleCalendarConfig.jsp"/>
+			<forward name="APL_ERR" path="/portlet/googleCalendarConfig.jsp"/>
+		</action>
+		<!-- GoogleCalendarポートレットの設定(保存) -->
+		<action path="/portlet/googleCalendarEventsList.SaveConfig"
+			type="jp.co.ksi.eip.commons.struts.InvokeAction"
+			parameter="jp.co.ksi.incubator.portlet.SaveServiceParam"
+			scope="request"
+			name="googleCalendarConfigForm"
+			>
+			<forward name="APL_OK" path="/portlet/resultSaveParam.jsp"/>
+			<forward name="APL_ERR" path="/portlet/resultSaveParam.jsp"/>
+		</action>
+		
+	</action-mappings>
+
+<!-- ======================================== Message Resources Definitions -->
+
+<!-- =============================================== Plug Ins Configuration -->
+
+<!-- ======================================================= Tiles plugin -->
+
+<!-- =================================================== Validator plugin -->
+
+</struts-config>
+

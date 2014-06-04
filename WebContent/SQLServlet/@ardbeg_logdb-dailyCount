@@ -1,0 +1,7 @@
+#jp.co.ksi.eip.commons.servlet.JndiSqlServlet
+#Wed Nov 24 08:59:14 JST 2010
+max=31
+resultSetType=1004
+resultSetConcurrency=1007
+jndi=java\:comp/env/jdbc/ardbeg.logdb
+sql=select to_char(access_time, 'YYYY-MM-DD') as DAY, count(to_char(access_time, 'YYYY-MM-DD'))\r\nfrom stlog\r\nwhere access_time like to_char(current_date-1, 'YYYY-MM-%')\r\ngroup by to_char(access_time, 'YYYY-MM-DD')\r\norder by to_char(access_time, 'YYYY-MM-DD')

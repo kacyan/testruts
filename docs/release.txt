@@ -1,0 +1,686 @@
+[2014/06/04]
+cvsからgitに移行しました。
+gitのリポジトリは以下です。
+\\fs1.oa.ksi.co.jp\KSI\U_個人用\S911013\git\testruts
+今後はcvs側は更新しないつもりです。
+
+[2014/05/28]
+(1)build.xmlにfindbugsを追加
+　build.xml
+(2)findbugsの警告箇所をいくつか修正
+
+[2014/05/27]
+(1)jenkins用にbuild.xmlを変更
+　build.xml
+　extlib/servlet-api.jar
+　extlib/annotations-api.jar
+　extlib/jasper.jar
+　jp.co.ksi.eip.commons.struts.DebugAction
+(2)findbugsを追加
+　build.xml
+
+[2014/05/19]
+(1)struts脆弱性対策を修正した
+　WebContent/WEB-INF/struts-config.xml
+
+[2014/05/16]
+(1)WSOに対して代理認証を行うサーブレットを追加した
+　jp.co.ksi.incubator.wso.WSOLoginServlet
+　WebContent/WEB-INF/session.ldif
+　WebContent/WEB-INF/web.xml
+(2)struts脆弱性対策を修正した
+　jp.co.ksi.eip.commons.servlet.InitContextListener
+　jp.co.ksi.eip.commons.util.KsiBeanUtilsResolver
+　jp.co.ksi.incubator.BeanUtilTest
+　jp.co.ksi.incubator.SubBean
+　jp.co.ksi.incubator.TestBean
+　WebContent/classloader.jsp
+(3)commons-fileuploadを1.3.1に更新した
+　WebContent/WEB-INF/lib/commons-fileupload-1.3.1.jar
+
+[2014/05/09] was7でのsturts脆弱性を調査したビルド
+classloader.jsp->test.doでパラメータを送りdebug-logを確認した
+(1)BeanUtilsの脆弱性対策処理をコメントアウトした
+　jp.co.ksi.eip.commons.servlet.InitContextListener
+(2)クラスローダー調査JSPを改良した
+　jp.co.ksi.incubator.MethodComparator
+　WebContent/classloader.jsp
+(3)commmons-loggingの調査とwas7対応
+　WebContent/commons-logging.jsp
+　webapps/was7/META-INF/services/org.apache.commons.logging.LogFactory
+　webapps/was7/WEB-INF/ibm-web-ext.xmi
+　webapps/was7/WEB-INF/web.xml
+　webapps/was7/WEB-INF/testruts.properties
+(4)was7(jdk1.6)用にコンパイルオプションを修正した
+　build.xml
+
+[2014/05/08]
+(1)クラスローダーチェックとwas7用ビルドを追加
+　jp.co.ksi.incubator.MethodComparator
+　jp.co.ksi.testruts.ReflectTest
+　webapps/was7/WEB-INF/testruts.properties
+　webapps/was7/WEB-INF/web.xml
+　WebContent/classloader.jsp
+　build.xml
+　※antバージョンの違いにより、antでjavacが走る事があり、その場合、was7で色々エラーがでる
+
+[2014/05/07]
+(1)Facebook認証の習作
+　jp.co.ksi.eip.commons.servlet.Auth
+　jp.co.ksi.eip.commons.servlet.AuthCheckFilter
+　jp.co.ksi.incubator.oauth2.CallService
+　jp.co.ksi.incubator.oauth2.FacebookLoginServlet
+　jp.co.ksi.incubator.oauth2.GetAccessToken
+　jp.co.ksi.incubator.oauth2.JsonTestMap
+　jp.co.ksi.incubator.portlet.OAuthConfig
+　WebContent/facebook/*
+(2)struts脆弱性の調査
+　jp.co.ksi.eip.commons.servlet.InitContextListener
+　jp.co.ksi.eip.commons.servlet.S2020Filter
+　jp.co.ksi.eip.commons.struts.DebugAction
+　jp.co.ksi.eip.commons.util.KacBeanUtilsResolver
+　jp.co.ksi.testruts.BeanUtilTest
+　jp.co.ksi.testruts.ReflectTest
+　jp.co.ksi.testruts.TestBean
+　WebContent/classloader.jsp
+
+[2014/02/04]
+(1)XSS脆弱性対応
+　jp.co.ksi.eip.commons.servlet.JndiSqlServlet
+　WebContent/check.jsp
+　WebContent/formTest.jsp
+　WebContent/jdbc.jsp
+　WebContent/jndi.jsp
+　WebContent/ldap.jsp
+　WebContent/URLConnection.jsp
+
+[2014/01/30]
+(1)ApacheLogのパーサーを追加した。
+　jp.co.ksi.incubator.MessageFormatTest
+　jp.co.ksi.incubator.ParseApacheLog
+　misc/perlog/access_log
+　create_log.sql
+　insert_log.sql
+(2)OWASP用のテストサーブレットを追加した。
+　jp.co.ksi.testruts.servlet.TestServlet
+　webapps/ardbeg/WEB-INF/web.xml
+　webapps/ardbeg/WEB-INF/testruts.properties
+　WebContent/WEB-INF/web.xml
+　WebContent/WEB-INF/testruts.properties
+
+[2013/12/27]
+(1)DynaValidatorActionFormに変更した
+　WebContent/sub/test.jsp
+　WebContent/WEB-INF/struts-config-sub.xml
+　WebContent/WEB-INF/validation.xml
+　WebContent/WEB-INF/validation-sub.xml
+　jp.co.ksi.testruts.Resources.properties
+(2)useradmから最新の共通モジュールをコピーした
+　jp.co.ksi.eip.commons.struts.DispatchAction
+　jp.co.ksi.eip.commons.struts.DownloadAction
+
+[2013/12/26]
+(1)SwitchActionの習作（異なるモジュールへの連続トラン）を追加した
+　適用パターンは、サブモジュールからメインモジュールの共通アクションを使いたい場合などか？
+　遷移イメージは以下の通り
+　/sub/test1.do -> jp.co.ksi.testruts.bl.SwitchActionTestBL
+　　APL_OK -> /sub/test.jsp
+　　APL_ERR -> /switchAction.do?prefix=/&amp;page=/check.jsp
+　
+　jp.co.ksi.testruts.bl.SwicthActionTestBL
+　WebContent/sub/index.jsp
+　WebContent/sub/test.jsp
+　WebContent/WEB-INF/struts-config-sub.xml
+　WebContent/WEB-INF/web.xml
+　WebContent/errorToken.jsp
+
+(2)InvokeActionにforward時のエラー処理を追加した
+　jp.co.ksi.eip.commons.struts.InvokeAction
+
+(3)DynaValidatorFormの習作を追加した
+　WebContent/sub/test.jsp
+　WebContent/WEB-INF/struts-config-sub.xml
+　WebContent/WEB-INF/validation.xml
+　jp.co.ksi.testruts.Resources.properties
+
+[2013/05/28]
+(1)グーグルカレンダーポートレットの習作でkubota.comにアクセスしてみた。
+　jp.co.ksi.incubator.portlet.GoogleCalendarEventsList
+　WebContent/WEB-INF/testruts.properties
+　WebContent/WEB-INF/struts-config-sub.xml
+　WebContent/WEB-INF/validation.xml
+
+[2013/05/17]
+(1)ardbeg環境に、全農OracleのJNDIを追加した
+　webapps/ardbeg/META-INF/context.xml
+
+[2013/04/11]
+(1)SAPの認証チケットを調査してみる
+　WebContent/WEB-INF/struts-config.xml
+　build.xml
+
+[2012/08/10]
+(1)起動時にMANIFEST.MFからバージョン情報を読み取るようにした
+　jp.co.ksi.eip.commons.servlet.InitContextListener
+(2)GETリクエストを中継する簡易proxyを追加した
+　jp.co.ksi.eip.commons.servlet.MiniProxyServlet
+(3)facebookのAPIを使ったportaletを作成
+　jp.co.ksi.incubator.portlet.Facebook
+　jp.co.ksi.incubator.portlet.FacebookPhoto
+　jp.co.ksi.incubator.portlet.GetAccessToken
+　jp.co.ksi.incubator.portlet.GoogleCalendarEventsList
+　jp.co.ksi.testruts.bl.BaseBL
+　jp.co.ksi.incubator.oauth2.CallService
+　jp.co.ksi.incubator.oauth2.ChankParser
+　jp.co.ksi.incubator.oauth2.JsonParser
+　jp.co.ksi.incubator.oauth2.OAuthDataParser
+(3)oauth2サービスの呼出処理の基底クラスを作成中
+　jp.co.ksi.incubator.oauth2.OAuthBaseService
+
+[2012/07/11]
+(1)googleCalendarAPIを使ったportletを作成
+　jp.co.ksi.incubator.portlet.GetAccessToken
+　jp.co.ksi.incubator.portlet.GetOAuthConfig
+　jp.co.ksi.incubator.portlet.GoogleCalendarEventsList
+　jp.co.ksi.incubator.portlet.LoadServiceParam
+　jp.co.ksi.incubator.portlet.OAuthConfig
+　jp.co.ksi.incubator.portlet.RefreshAccessToken
+　jp.co.ksi.incubator.portlet.SaveServiceParam
+　jp.co.ksi.testruts.Const
+　jp.co.ksi.testruts.bl.BaseBL
+　docs/GoogleCalendarOAuth.txt
+　docs/OAuth2Service.ppt
+　WebContent/portlet/googleCalendarConfig.jsp
+　WebContent/portlet/googleCalendarPortlet.jsp
+　WebContent/portlet/index.jsp
+　WebContent/portlet/oauthRequest.jsp
+　WebContent/portlet/redirectService.jsp
+　WebContent/portlet/resultSaveParam.jsp
+　WebContent/WEB-INF/struts-config-oauth2.xml
+　WebContent/WEB-INF/testruts.properties
+
+[2012/06/22]
+(1)oauth-2.0の習作を改良。Tokenの再取得成功。
+　サービス呼出->401エラー->Token再取得の流れも出来た
+　参照：GoogleCalendarOAuth.txt
+　jp.co.ksi.incubator.oauth2.CallService
+　jp.co.ksi.incubator.oauth2.GetAccessToken
+　jp.co.ksi.incubator.oauth2.JsonTest
+　jp.co.ksi.incubator.oauth2.JsonTestMap
+　jp.co.ksi.incubator.oauth2.JsonTestProperties
+　jp.co.ksi.incubator.oauth2.ListGoogleCalendarEvents
+　jp.co.ksi.incubator.oauth2.OAuth
+　jp.co.ksi.incubator.oauth2.RefreshAccessToken
+　jp.co.ksi.testruts.Resource*.properties
+　docs/GoogleCalendarOAuth.txt
+　misc/kac-event.json
+　misc/kac-events.json
+　webapps/ardbeg/WEB-INF/web.xml
+　WebContent/oauth2/callResult.jsp
+　WebContent/oauth2/googleCalendar.jsp
+　WebContent/oauth2/googleCalendarPortlet.jsp
+　WebContent/oauth2/index.jsp
+　WebContent/oauth2/oauth.jsp
+　WebContent/oauth2/oauthResult.jsp
+　WebContent/oauth2/portaletest.jsp
+　WebContent/WEB-INF/struts-config-oauth2.xml
+　WebContent/WEB-INF/web.xml
+(2)HTTPSアクセスの習作を追加
+　jp.co.ksi.incubator.HttpsURLConnectionTest
+　jp.co.ksi.incubator.ssl.DummyHostnameVerifier
+　jp.co.ksi.incubator.ssl.DummyTrustManager
+　jp.co.ksi.testruts.X_MS_ApplicationServlet
+
+[2012/06/18]
+(1)oauth-2.0の習作を改良。Tokenの再取得を試作中(refresh_tokenが取れん)
+　jp.co.ksi.incubator.oauth2.CallService
+　jp.co.ksi.incubator.oauth2.GetAccessToken
+　jp.co.ksi.incubator.oauth2.OAuth
+　jp.co.ksi.incubator.oauth2.RefreshAccessToken
+　docs/oauth.txt
+　docs/oauth-2.0.txt
+　WebContent/oauth2/callResult.jsp
+　WebContent/oauth2/index.jsp
+　WebContent/oauth2/oauthResult.jsp
+　WebContent/oauth2/offline.jsp
+　WebContent/WEB-INF/strtus-config-oauth2.xml
+
+[2012/06/01]
+(1)oauth-2.0の習作を一旦コミットする
+　google calendar apiをoauth-2.0でアクセスできた。
+　jp.co.ksi.incubator.oauth2.CallService
+　jp.co.ksi.incubator.oauth2.CallTest
+　jp.co.ksi.incubator.oauth2.GetAccessToken
+　jp.co.ksi.incubator.oauth2.Init
+　jp.co.ksi.incubator.oauth2.JsonTest
+　jp.co.ksi.incubator.oauth2.ListGoogleCalendarEvents
+　jp.co.ksi.incubator.oauth2.OAuth
+　jp.co.ksi.incubator.oauth2.OAuth2Test
+　WebContent/oauth2/*
+　WebContent/WEB-INF/struts-config-oauth2.xml
+(2)oauth-1.0の習作を改良。RSS取得と連携
+　jp.co.ksi.incubator.oauth.CallServiceRss
+　jp.co.ksi.incubator.oauth.GetOAuthRSS
+　jp.co.ksi.incubator.oauth.GetRequestToken
+　jp.co.ksi.incubator.oauth.OAuthBeanUtil
+　jp.co.ksi.testruts.bl.BaseBL
+　jp.co.ksi.testruts.bl.GetRss
+　jp.co.ksi.testruts.bl.GetRssOAuth
+　WebContent/oauth/*
+　WebContent/WEB-INF/struts-config-oauth.xml
+
+[2012/05/10]
+(1)RSS用のjarを追加した
+　WebContent/WEB-INF/lib/rome-1.0.jar
+　WebContent/WEB-INF/lib/jdom.jar (v1.1.1)
+　jp.co.ksi.incubator.RSSTest
+(2)サービス呼出をRSS対応した
+　jp.co.ksi.incubator.oauth.CallServiceRss
+　WebContent/oauth/index.jsp
+　WebContent/oauth/rss.jsp
+　WebContent/WEB-INF/struts-config-oauth.xml
+　WebContent/URLEncode.jsp
+
+[2012/05/09]
+(1)サービスURLの保持方法を改良した
+　jp.co.ksi.incubator.oauth.CallService
+　jp.co.ksi.incubator.oauth.LoadToken
+　jp.co.ksi.incubator.oauth.SaveToken
+　WebContent/oauth/callResult.jsp
+　WebContent/oauth/oauthRedirect.jsp
+　WebContent/oauth/oauthResult.jsp
+　WebContent/WEB-INF/struts-config-oauth.xml
+
+[2012/05/08]
+(1)TwitterOAuthに対応した
+　サービスURLを別途保持するようにした
+　jp.co.ksi.incubator.oauth.CallService
+　WebContent/WEB-INF/struts-config-oauth.xml
+　WebContent/oauth/callResult.jsp
+　WebContent/oauth/index.jsp
+　WebContent/oauth/oauth.jsp
+　WebContent/oauth/oauthRedirect.jsp
+　WebContent/oauth/oauthResult.jsp
+(2)eip.jarをv1.2.2.2-20120423に更新した
+　WebContent/WEB-INF/lib/eip.jar
+
+[2012/04/11]
+(1)はてなのOAuthに対応した
+　リクエストで送付するoauthパラメータは、URLエンコードしておく必要がある
+　レスポンスで返ってくるoauthパラメータはURLデコードする
+　jp.co.ksi.incubator.oauth.CallService
+　jp.co.ksi.incubator.oauth.GetAccessToken
+　jp.co.ksi.incubator.oauth.GetRequestToken
+　jp.co.ksi.incubator.oauth.OAuthBean
+　WebContent/oauth/index.jsp
+　WebContent/oauth/oauth_logo.png
+　WebContent/oauth/oauthResult.jsp
+
+[2012/04/09]
+(1)タグリブを追加した<eip:radio>,<eip:combobox>
+　jp.co.ksi.eip.commons.taglib.ComboBoxTag
+　jp.co.ksi.eip.commons.taglib.Option
+　jp.co.ksi.eip.commons.taglib.RadioButtonTag
+　jp.co.ksi.eip.commons.struts.StrutsUtil
+　jp.co.ksi.eip.testruts.Resource*
+　WebContent/WEB-INF/tld/eip.tld
+　WebContent/formTest.jsp
+(2)LDAPソートの習作
+　jp.co.ksi.incubator.LdapAttibuteTest
+　jp.co.ksi.incubator.LdapNameTest(削除)
+　jp.co.ksi.incubator.LdapSearchTest
+　jp.co.ksi.incubator.LdapSearch2Test
+　jp.co.ksi.incubator.LdapTest
+
+[2012/03/27]
+(1)bowmore.dev.ksi.co.jp用ビルドを修正した
+　commons-dbcpのパラメータ名が変わった？
+　initConnectionSqls -> connectionInitSqls
+　webapps/bowmore/META-INF/context.xml
+　webapps/bowmore/WEB-INF/testruts.properties
+　webapps/bowmore/WEB-INF/web.xml
+
+[2012/03/16]
+(1)セッションのOAuthをファイルにsave/loadできるようにした。
+　発行されたトークンがいつまで有効なのか調べるため
+　jp.co.ksi.incubator.oauth.LoadToken
+　jp.co.ksi.incubator.oauth.SaveToken
+　jp.co.ksi.incubator.oauth.CallService
+　jp.co.ksi.incubator.oauth.OAuthBaseBL
+　jp.co.ksi.incubator.oauth.OAuthBean
+　webapps/ardbeg/WEB-INF/web.xml
+　WebContent/oauth/callResult.jsp
+　WebContent/oauth/index.jsp
+　WebContent/oauth/oauthResult.jsp
+　WebContent/WEB-INF/struts-config-oauth.xml
+(2)メッセージリソースに汎用エラーメッセージを追加した
+　jp.co.ksi.incubator.oauth.Resource.*
+　WebContent/inc/error.jsp
+　WebContent/error.jsp
+(3)OAuthについての考察を追加
+　docs/oauth.txt
+
+[2012/03/13]
+(1)OAuthデータをBean化し、セッション保持するようにした。
+　これでコールバックを受けれるようになった。
+　jp.co.ksi.incubator.oauth.CallService
+　jp.co.ksi.incubator.oauth.GetAccessToken
+　jp.co.ksi.incubator.oauth.GetRequestToken
+　jp.co.ksi.incubator.oauth.OAuthBaseBL
+　jp.co.ksi.incubator.oauth.OAuthBean
+　WebContent/oauth/callResult.jsp
+　WebContent/oauth/index.jsp
+　WebContent/oauth/loginRedirect.jsp(削除)
+　WebContent/oauth/oauthRedirect.jsp(追加)
+　WebContent/oauth/loginResult.jsp(削除)
+　WebContent/oauth/oauthResult.jsp(追加)
+　WebContent/oauth/oauth.jsp
+　WebContent/WEB-INF/struts-config-oauth.xml
+
+[2012/03/12]
+(1)OAuthの習作を改良した。Googleのサービスが呼べるようになった。
+　jp.co.ksi.incubator.oauth.CallService
+　webapps/ardbeg/WEB-INF/web.xml
+　WebContent/inc/error.jsp
+　WebContent/oauth/callResult.jsp
+　WebContent/oauth/index.jsp
+　WebContent/oauth/loginRedirect.jsp
+　WebContent/oauth/loginResult.jsp
+　WebContent/WEB-INF/struts-config-oauth.xml
+　WebContent/WEB-INF/web.xml
+　WebContent/scp.jsp(削除)
+　WebContent/sftp.jsp(削除)
+
+[2012/03/08]
+(1)OAuthの習作を改良した
+　YahooとGoogleのテストが簡単に出来るように、初期パラメータを設定した
+　jp.co.ksi.incubator.oauth.GetRequestToken
+　WebContent/oauth/index.jsp
+　WebContent/oauth/loginRedirect.jsp
+　WebContent/oauth/oauth.jsp
+　WebContent/WEB-INF/web.xml
+(2)不要クラス、jarを削除した
+　jp.co.ksi.incubator.commons.net.FTPClientExample
+　jp.co.ksi.incubator.commons.net.FTPTest
+　WebContent/WEB-INF/lib/commons-httpclient-3.0.1.jar　httpclientは4.0を使うかも
+　WebContent/WEB-INF/lib/commons-net-3.0.1.jar　jschの方が便利かも
+　WebContent/WEB-INF/lib/cryptix32.jar　最近はnativeで対応可能かも
+　WebContent/WEB-INF/lib/gdata-base-1.0.jar　google-apiは使わなかった
+　WebContent/WEB-INF/lib/gdata-calendar-2.0.jar　google-apiは使わなかった
+　WebContent/WEB-INF/lib/gdata-calendar-meta-2.0.jar　google-apiは使わなかった
+　WebContent/WEB-INF/lib/gdata-client-1.0.jar　google-apiは使わなかった
+　WebContent/WEB-INF/lib/gdata-client-meta-1.0.jar　google-apiは使わなかった
+　WebContent/WEB-INF/lib/gdata-core-1.0.jar　google-apiは使わなかった
+　WebContent/WEB-INF/lib/proxy.jar　昔の残骸、使ってないしソースも無い
+
+[2012/03/07]
+OAuthの習作を一旦リリース
+YahooとGoogleのOAuthアクセストークンの取得に成功した
+【注意】YahooとGoogleではOAuth認証の仕方が微妙に異なる、実務で行う際はプロバイダ毎に実装すべきと思われる
+　　　　例えば、GoogleはAuthorizationヘッダしか受け付けてくれない　とか
+　　　　Yahooは、カンマ区切りの後ろに半角スペースが入るとエラー扱いされる　とか
+　　　　Googleは、scopeの指定が必須、Yahooは、scopeを指定するとエラー　とか
+　jp.co.ksi.incubator.OAuthYahooTest
+　jp.co.ksi.incubator.oauth.GetAccessToken
+　jp.co.ksi.incubator.oauth.GetRequestToken
+　jp.co.ksi.incubator.oauth.OAuthBaseBL
+　WebContent/default.css
+　WebContent/oauth/loginRedirect.jsp
+　WebContent/oauth/loginResult.jsp
+　WebContent/oauth/oauth.jsp
+　WebContent/WEB-INF/struts-config.xml
+　WebContent/WEB-INF/struts-config-oauth.xml
+　WebContent/WEB-INF/web.xml
+　WebContent/WEB-INF/testruts.properties
+
+[2012/02/24]
+testruts.jspを作成中
+
+[2011/12/15]
+(1)sftpの習作が一応できた
+　jp.co.ksi.incubator.jcraft.SftpBL
+　jp.co.ksi.incubator.jcraft.SftpLsBL
+　jp.co.ksi.incubator.jcraft.SftpGetBL
+　jp.co.ksi.incubator.jcraft.SftpPutBL
+　jp.co.ksi.eip.commons.struts.DispatchAction
+　WebContent/WEB-INF/struts-config.xml
+　WebContent/sftp/index.jsp
+　WebContent/sftp/ls.jsp
+　WebContent/sftp/inc_error.jsp
+
+[2011/12/13]
+(1)sftpの習作を追加した
+　jp.co.ski.incubator.jcraft.MyUserInfo
+　jp.co.ski.incubator.jcraft.Sftp
+　jp.co.ski.incubator.jcraft.SftpBL
+　jp.co.ski.incubator.jcraft.SftpGetBL
+　jp.co.ski.incubator.jcraft.SftpLsBL
+　WebContent/sftp/ls.jsp
+　WebContent/sftp/inc_error.jsp
+　WebContent/WEB-INF/struts-config.xml
+
+[2011/12/09]
+(1)JndiSqlServletを変更
+(2)OAuthの習作を追加(Yahoo)
+　jp.co.ski.incubator.OAuthYahooTest
+　OAuthYahooTest.out
+(3)JCS(キャッシュ)の習作を追加
+　jp.co.ski.incubator.JcsIElementEventHandler
+　jp.co.ksi.testruts.Const
+　WebContent/JcsTest.jsp
+　WebContent/WEB-INF/web.xml
+　WebContent/WEB-INF/testruts.properties
+　WebContent/WEB-INF/lib/jcs-1.3.jar
+　WebContent/WEB-INF/lib/concurrent.jar
+(4)commons-netの習作を追加
+　jp.co.ski.incubator.commons.net.*
+(5)jsch(scp,sftp)の習作を追加
+　jp.co.ski.incubator.jcraft.*
+　WebContent/sftp.jsp
+　WebContent/WEB-INF/known_hosts
+　WebContent/WEB-INF/lib/jsch-0.1.45.jar
+　misc/known_hosts
+
+[2011/12/06]
+(1)scpの習作を追加中
+　WebContent/WEB-INF/lib/commons-net-3.0.1.jar
+　WebContent/WEB-INF/lib/jsch-0.1.45.jar
+　jp.co.ksi.incubator.commons.net.FTPClientExample
+　jp.co.ksi.incubator.commons.net.FTPTest
+　jp.co.ksi.incubator.jcraft.KnowHosts
+　jp.co.ksi.incubator.jcraft.ScpFrom
+　jp.co.ksi.incubator.jcraft.ScpTo
+　jp.co.ksi.incubator.jcraft.ScpToNoneCipher
+　misc/jsch-0.1.45.zip
+　misc/known_hosts
+
+[2011/09/29]
+(1)JDBCドライバをmiscからWebcontent/WEB-INF/jdbcに移動した
+　Webcontent/WEB-INF/jdbc/db2jcc.jar
+　Webcontent/WEB-INF/jdbc/hsqldb.jar
+　Webcontent/WEB-INF/jdbc/jconn4.jar
+　Webcontent/WEB-INF/jdbc/mssqlserver.jar
+　Webcontent/WEB-INF/jdbc/ojdbc14.jar
+　Webcontent/WEB-INF/jdbc/postgresql-jdbc.jar
+(2)Sybase用DataSourceの設定を追加
+　WebConten/META-INF/content.xml
+(3)JDBCのテストプログラムを追加
+　TestJDBC
+
+[2011/09/21]
+(1)Basic認証情報を使ってremoteUserをセットするFilterを追加した
+　jp.co.ksi.eip.commons.servlet.BasicRemoteUserFilter
+　jp.co.ksi.eip.commons.servlet.RemoteUserRequestWrapper
+　WebContent/check.jsp
+　WebContent/WEB-INF/web.xml
+　WebContent/WEB-INF/testruts.properties
+　webapps/ardbeg/WEB-INF/web.xml
+　webapps/ardbeg/WEB-INF/testruts.properties
+(2)コンテキストの初期化処理をContextListenerで行うようにした
+　jp.co.ksi.eip.commons.servlet.InitContextListener
+　jp.co.ksi.eip.commons.servlet.InitServlet <- @deprecated
+　WebContent/WEB-INF/web.xml
+　WebContent/WEB-INF/testruts.properties
+　webapps/ardbeg/WEB-INF/web.xml
+　webapps/ardbeg/WEB-INF/testruts.properties
+
+[2011/08/19]
+(1)サーバ移行対応：ardbeg用buildを追加した
+　webapps/ardbeg/META-INF/context.xml
+　webapps/ardbeg/WEB-INF/testruts.properties
+　webapps/ardbeg/WEB-INF/web.xml
+　WebContent/SQLServlet/@ardbeg.logdb-dailyCount
+　WebContent/SQLServlet/@ardbeg.logdb-lastAccess
+　WebContent/SQLServlet/@hsqldb-systables
+　misc/postgresql-jdbc.jar
+　misc/hsqldb.jar
+　build.xml
+
+[2011/07/22]
+(1)LdapContextの習作を追加した
+　jp.co.ksi.incubator.LdapAttributeTest
+　jp.co.ksi.incubator.LdapSearch2Test
+　jp.co.ksi.incubator.LdapSearchTest
+　jp.co.ksi.incubator.LdapTest
+　WebContent/ldap.jsp
+(2)XPathの習作を追加した
+　jp.co.ksi.incubator.XPathTest
+
+[2011/05/10]
+(1)strutsの設定情報を見るJSPを追加した
+　WebContent/ModuleConfig.jsp
+(2)RequestDispatcher.include()の挙動確認JSP
+　WebContent/RequestDispatcherTest.jsp
+(3)SQLServlet設定情報を更新
+　WebContent/SQLServlet/@bowmore.logdb-dailyCount
+　WebContent/SQLServlet/@bowmore.logdb-nonAuthenticate
+
+[2011/04/08]
+(1)デバック用Actionを追加した
+　jp.co.ksi.eip.commons.struts.DebugAction
+　WebContent/DebugAction.jsp
+　WebContent/WEB-INF/struts-config.xml
+
+[2011/01/28]
+(1)PORTAL4用のビルドを追加した
+
+[2011/01/24]
+(1)jndi.jspを改良した
+　dns://172.16.90.4/
+　ldap://eip-ldap/ou=Master,o=WebSignOn,c=JP
+　なども使えるようにした
+(2)ldap.jspを追加した
+　ldap検索の習作
+
+[2010/12/14]
+(1)URLConnectionの習作を追加した
+　WebContent/URLConnection.jsp
+
+[2010/11/17]
+(1)strutsを1.3.10に更新した
+(2)bowmore用ビルドをservlet2.4にした
+(3)jp.co.ksi.commonsをjp.co.ksi.eip.commonsに統一した
+
+[2010/09/30]
+(1)Basic認証のテストを追加した
+　WebContent/basic.jsp
+(2)IE8テスト用のJSPを追加した
+　WebContent/ietest.jsp
+　httpでは再現しないね
+(3)Servlet-2.4に対応した
+　WebContent/WEB-INF/web.xml
+(4)JSTLのテストを追加した
+　WebContent/WEB-INF/lib/jstl.jar
+　WebContent/WEB-INF/lib/standard.jar
+　WebContent/jstlTest.jsp
+
+[2010/08/27]
+(1)bowmore用のビルドを追加した
+
+[2010/07/06]
+(1)タグリブのURIを変更した
+　WebContent/*.jsp
+
+[2010/04/13]
+(1)プロジェクトの文字コードをutf-8に変更した
+(2)文字列処理クラスをサロゲートペア対応した
+　jp.co.ksi.commons.util.StringUtil
+
+[2010/02/18]
+(1)commons-daemonを除去した
+　lib/commons-daemon.jar
+　jp.co.ksi.incubator.Daemon1
+　jp.co.ksi.incubator.StartMain
+　jp.co.ksi.incubator.StopMain
+　jp.co.ksi.incubator.TestMain
+(2)StrutsUtilを追加した
+　jp.co.ksi.commons.struts.StrutUtil
+
+[2010/02/02]
+(1)CronListenerのログを抑制
+　jp.co.ksi.commons.cron.CronListener
+(2)セマフォをincubatorに移動
+　jp.co.ksi.incubator.SemaphoreFilter
+　WebContent/sleep.jsp
+(3)jndi.jspを改良した
+　WebContent/jndi.jsp
+
+[2010/01/27]
+(1)jp.co.ksi.commons.servlet.JndiSqlServlet
+　JNDI名は検索して取得するようにした
+　WebContent/WEB-INF/web.xml
+(2)jp.co.ksi.commons.daemon を jp.co.ksi.commons.cron に変更した
+　jp.co.ksi.commons.batch.TaskInvoker
+　jp.co.ksi.commons.cron.CronInfo
+　jp.co.ksi.commons.cron.CronListener
+　jp.co.ksi.commons.CronServlet
+　jp.co.ksi.commons.KacThread
+　jp.co.ksi.commons.daemon.* --- 削除
+(3)セマフォを検討中
+　jp.co.ksi.incubator.SemaphoreServlet
+　jp.co.ksi.incubator.Semaphore
+　WebContent/WEB-INF/web.xml
+
+[2010/01/22]
+(1)SQLServlet：statement生成時にresultSetTypeとresultSetConcurrencyを指定できるようにした
+　jp.co.ksi.commons.servlet.JndiSqlServlet
+　misc/testruts.xml
+　SQLServlet/*
+(2)jndiの一覧取得を実装中
+　WebContent/jndi.jsp
+
+[2010/01/19 Kac]
+(1)daemonとbatchに分けた
+　jp.co.ksi.commons.batch.Task
+　jp.co.ksi.commons.batch.TaskInvoker
+　jp.co.ksi.commons.batch.DefaultTask
+　jp.co.ksi.commons.daemon.DaemonInfo
+　jp.co.ksi.commons.daemon.DaemonListener
+　jp.co.ksi.commons.daemon.DaemonServlet
+　jp.co.ksi.commons.daemon.KacThread
+(2)javamailを1.4.1に更新した
+　jp.co.ksi.incubator.MailRecieveTest
+　WebContent/WEB-INF/lib/mail.jar
+　WebContent/WEB-INF/lib/activation.jar
+
+[2010/01/06 Kac]
+(1)Daemonの初期起動を行う為に独自スレッドを追加した
+　jp.co.ksi.commons.servlet.DaemonServlet
+　jp.co.ksi.commons.servlet.DaemonListener
+　jp.co.ksi.commons.servlet.KacThread
+(2)SessionListenerを使ったデーモンの実現方法を記述した
+　docs/daemon.txt
+
+[2009/04/30 Kac]
+(1)ServletSessionを使ったDaemonを試作した
+　jp.co.ksi.commons.daemon
+
+[2009/03/27 Kac]
+(1)Daemonを試作中
+　jp.co.ksi.commons.servlet.ContextListener
+　jp.co.ksi.commons.servlet.DaemonListener
+　jp.co.ksi.commons.servlet.DaemonServlet
+　jp.co.ksi.commons.servlet.IDaemon
+　jp.co.ksi.commons.servlet.SampleDaemon
+　jp.co.ksi.commons.servlet.SessionListener
+

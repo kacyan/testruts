@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 2013/07/12 testruts context.xml for ardbeg.dev.ksi.co.jp -->
+<Context reloadable="true" antiResourceLocking="false" privileged="true">
+
+ <Logger className="org.apache.catalina.logger.SystemOutLogger"/>
+
+ <Resource name="jdbc/ardbeg.logdb" type="javax.sql.DataSource"
+	driverClassName="org.postgresql.Driver"
+	url="jdbc:postgresql://localhost:5432/logdb?charSet=utf-8"
+	username="tomcat"
+	password="tomcat"
+	initConnectionSqls=""
+	maxIdle="2"
+	maxWait="5000"
+	maxActive="4"/>
+ <Resource name="jdbc/Jinji_DB" type="javax.sql.DataSource"
+	driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+	url="jdbc:sqlserver://133.253.163.123:1433;DatabaseName=Jinji_DB"
+	username="KSCM-GetData"
+	password="jinjibase"
+	maxIdle="2"
+	maxWait="5000"
+	maxActive="4"/>
+ <Resource name="jdbc/devdb02.KAPSDEV" type="javax.sql.DataSource"
+	driverClassName="com.ibm.db2.jcc.DB2Driver"
+	url="jdbc:db2://172.16.90.101:4500/KAPSDEV"
+	username="wfbat"
+	password="kapsrwf"
+	initConnectionSqls="SET CURRENT SCHEMA KAPS2;SET CURRENT FUNCTION PATH KAPS2,SYSFUN"
+	maxIdle="2"
+	maxWait="5000"
+	maxActive="4"/>
+ <Resource name="jdbc/kaigo.db2.kac" type="javax.sql.DataSource"
+	driverClassName="com.ibm.db2.jcc.DB2Driver"
+	url="jdbc:db2://172.16.80.73:50000/kac"
+	username="administrator"
+	password="adminpassword"
+	initConnectionSqls=""
+	maxIdle="2"
+	maxWait="5000"
+	maxActive="4"/>
+ <Resource name="jdbc/kaigo.sqlserver.介護デモ" type="javax.sql.DataSource"
+	driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+	url="jdbc:sqlserver://172.16.80.196:1433;DatabaseName=介護デモ"
+	username="sa"
+	password="sa"
+	initConnectionSqls=""
+	maxIdle="2"
+	maxWait="30000"
+	maxActive="4"/>
+ <Resource name="jdbc/javadb.sample1" type="javax.sql.DataSource"
+	driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
+	url="jdbc:derby:/home/tomcat/javadb/sample1;create=true"
+	username=""
+	password=""
+	maxIdle="2"
+	maxWait="5000"
+	maxActive="4"/>
+ <Resource name="jdbc/hsqldb.sample1" type="javax.sql.DataSource"
+	driverClassName="org.hsqldb.jdbcDriver"
+	url="jdbc:hsqldb:file:/home/tomcat/hsqldb/data/sample1"
+	username="sa"
+	password=""
+	maxIdle="2"
+	maxWait="5000"
+	maxActive="4"/>
+ <!-- 2013/05/17 Kac for Zennoh HandyTerminal Oracle -->
+ <Resource name="jdbc/oracle.hais2" type="javax.sql.DataSource"
+	driverClassName="oracle.jdbc.driver.OracleDriver"
+	url="jdbc:oracle:thin:@172.16.98.113:1521:hais2"
+	username="zennoh_dev"
+	password="zennoh_dev"
+	maxIdle="2"
+	maxWait="5000"
+	maxActive="4"/>
+
+ <Manager pathname="" />
+
+</Context>

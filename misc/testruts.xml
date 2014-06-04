@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 2011/09/20 -->
+
+<Context reloadable="true" docBase="C:\europa\workspace\testruts/WebContent"
+ antiResourceLocking="false" privileged="true">
+
+ <Logger className="org.apache.catalina.logger.SystemOutLogger"/>
+
+ <Resource name="jdbc/ardbeg.logdb" type="javax.sql.DataSource"
+	driverClassName="org.postgresql.Driver"
+	url="jdbc:postgresql://ardbeg.dev.ksi.co.jp:5432"
+	username="tomcat"
+	password="tomcat"
+	maxIdle="2"
+	maxWait="5000"
+	maxActive="4"/>
+ <Resource name="jdbc/sybase.sampledb" type="javax.sql.DataSource"
+	driverClassName="com.sybase.jdbc4.jdbc.SybDriver"
+	url="jdbc:sybase:Tds:192.168.230.130:5500/sampledb"
+	username="dba"
+	password="sql"
+	maxIdle="2"
+	maxWait="5000"
+	maxActive="4"/>
+ <Resource name="jdbc/Jinji_DB" type="javax.sql.DataSource"
+	driverClassName="com.microsoft.jdbc.sqlserver.SQLServerDriver"
+	url="jdbc:microsoft:sqlserver://133.253.163.123:1433;DatabaseName=Jinji_DB"
+	username="KSCM-GetData"
+	password="jinjibase"
+	maxIdle="2"
+	maxWait="5000"
+	maxActive="4"/>
+ <Resource name="jdbc/devdb02.KAPSDEV" type="javax.sql.DataSource"
+	driverClassName="com.ibm.db2.jcc.DB2Driver"
+	url="jdbc:db2://172.16.90.101:4500/KAPSDEV"
+	username="wfbat"
+	password="kapsrwf"
+	initSQL1="SET CURRENT SCHEMA KAPS2"
+	initSQL2="SET CURRENT FUNCTION PATH KAPS2,SYSFUN"
+	maxIdle="2"
+	maxWait="5000"
+	maxActive="4"/>
+ <Resource name="jdbc/javadb" type="javax.sql.DataSource"
+	driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
+	url="jdbc:derby:/temp/javadb/sample1;create=true"
+	username=""
+	password=""
+	maxIdle="2"
+	maxWait="5000"
+	maxActive="4"/>
+ <Resource name="jdbc/hsqldb" type="javax.sql.DataSource"
+	driverClassName="org.hsqldb.jdbcDriver"
+	url="jdbc:hsqldb:file:/hsqldb/data/sample1"
+	username="sa"
+	password=""
+	maxIdle="2"
+	maxWait="5000"
+	maxActive="4"/>
+
+</Context>

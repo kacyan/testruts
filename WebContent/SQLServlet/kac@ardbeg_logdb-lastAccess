@@ -1,0 +1,7 @@
+#jp.co.ksi.commons.servlet.JndiSqlServlet
+#Fri Jan 22 13:54:42 JST 2010
+max=30
+resultSetType=1004
+resultSetConcurrency=1007
+jndi=java\:comp/env/jdbc/ardbeg.logdb
+sql=select userid, count(userid) as count, max(access_time) as lastAccess\r\nfrom stlog\r\nwhere not userid\='Non authenticate'\r\ngroup by userid\r\norder by lastAccess desc

@@ -1,0 +1,7 @@
+#jp.co.ksi.commons.servlet.JndiSqlServlet
+#Fri Jan 22 13:53:58 JST 2010
+max=20
+resultSetType=1003
+resultSetConcurrency=1007
+jndi=java\:comp/env/jdbc/Jinji_DB
+sql=select * from KSCM_Base

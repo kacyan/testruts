@@ -1,0 +1,7 @@
+#jp.co.ksi.commons.servlet.JndiSqlServlet
+#Fri Jan 22 13:59:10 JST 2010
+max=30
+resultSetType=1004
+resultSetConcurrency=1007
+jndi=java\:comp/env/jdbc/devdb02.KAPSDEV
+sql=set current schema KAPS2;\r\nselect * from PBMPLST

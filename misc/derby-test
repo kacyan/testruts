@@ -1,0 +1,7 @@
+create table DBCPLOG (
+ NAME varchar(20),
+ TIMESTAMP timestamp,
+ DESCRIPTION varchar(60)
+)
+
+insert into DBCPLOG values( 'KacDebug', CURRENT_TIMESTAMP, '' )
