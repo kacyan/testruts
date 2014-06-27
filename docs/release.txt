@@ -1,6 +1,8 @@
 [2014/06/27]
 JavaScriptのテストページを追加した。
 　WebContent/jstest.jsp
+githubにもコミット・プッシュするようにした。https://github.com/kacyan/testruts
+jenkins(http://bowmore.dev.ksi.co.jp)で githubからフェッチ、ビルド、ardbegへデプロイ を行うようにしてみた。
 
 [2014/06/04]
 cvsからgitに移行しました。
