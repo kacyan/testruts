@@ -1,3 +1,7 @@
+[2014/06/27]
+JavaScriptのテストページを追加した。
+　WebContent/jstest.jsp
+
 [2014/06/04]
 cvsからgitに移行しました。
 gitのリポジトリは以下です。
