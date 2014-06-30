@@ -6,6 +6,7 @@ import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -51,12 +52,12 @@ public class HttpsTest
 				
 				int	responseCode= http.getResponseCode();
 				log.info( "responseCode="+ responseCode );
-				Map	m= http.getHeaderFields();
+				Map<String, List<String>>	m= http.getHeaderFields();
 				for( Iterator i= m.keySet().iterator(); i.hasNext(); )
 				{
 					String	name= (String)i.next();
-					String	value= (String)m.get( name );
-					log.debug( "[Header] "+ name +"="+ value );
+					List<String>	values= m.get( name );
+					log.info( "[Header] "+ name +"="+ values );
 				}
 				
 			}

@@ -19,9 +19,9 @@ import JP.co.ksi.eip.entity.UserEntityHelper;
  * @author kac
  * @since 2011/06/10
  */
-public class LdapSearchTest extends LdapTest
+public class LdapSearchTest extends LdapContextTest
 {
-	private static Logger	log= Logger.getLogger( LdapTest.class );
+	private static Logger	log= Logger.getLogger( LdapContextTest.class );
 	
 	/**
 	 * @param args

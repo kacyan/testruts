@@ -23,9 +23,9 @@ import JP.co.ksi.ldap.LdapManager;
  * @author kac
  * @since 2011/06/10
  */
-public class LdapSearch2Test extends LdapTest
+public class LdapSearch2Test extends LdapContextTest
 {
-	private static Logger	log= Logger.getLogger( LdapTest.class );
+	private static Logger	log= Logger.getLogger( LdapContextTest.class );
 	
 	/**
 	 * @param args

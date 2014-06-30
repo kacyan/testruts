@@ -1,3 +1,9 @@
+[2014/06/30]
+(1)ldap.jspを改良した
+　WebContent/ldap.jsp
+(2)jenkinsにSCMポーリングを追加した。
+(3)いくつかのFindBugs警告に対処した。
+
 [2014/06/27]
 JavaScriptのテストページを追加した。
 　WebContent/jstest.jsp

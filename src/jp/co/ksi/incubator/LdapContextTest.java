@@ -22,18 +22,18 @@ import org.apache.log4j.Logger;
  * @author kac
  * @since 2011/06/06
  */
-public class LdapTest
+public class LdapContextTest
 {
 	protected InitialLdapContext ctx= null;
 
-	private static Logger	log= Logger.getLogger( LdapTest.class );
+	private static Logger	log= Logger.getLogger( LdapContextTest.class );
 	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args)
 	{
-		LdapTest	test= new LdapTest();
+		LdapContextTest	test= new LdapContextTest();
 		try
 		{
 			test.init();

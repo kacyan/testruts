@@ -52,7 +52,7 @@ public class BasicRemoteUserFilter implements Filter
 				//	base64部分を取り出して、デコードする
 				String	base64= authorization.replaceAll( BASIC_PREFIX, "" );
 				log.debug( "base64="+ base64 );
-				base64= new String( Base64.decodeBase64( base64.getBytes("US-ASCII") ) );
+				base64= new String( Base64.decodeBase64( base64.getBytes("US-ASCII") ), "US-ASCII" );
 
 				//	ユーザID部分を取り出す
 				String	user= base64.replaceAll( "(^.*):.*", "$1" );

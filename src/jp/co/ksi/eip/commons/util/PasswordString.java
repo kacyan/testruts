@@ -30,7 +30,18 @@ public class PasswordString
 	{
 		if( obj != null )
 		{
-			return password.equals( obj.toString() );
+			if( obj instanceof String )
+			{
+				return password.equals( (String)obj );
+			}
+			else if( obj instanceof PasswordString )
+			{
+				return password.equals( ((PasswordString)obj).password );
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
 		{

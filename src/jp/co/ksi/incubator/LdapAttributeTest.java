@@ -17,9 +17,9 @@ import org.apache.log4j.Logger;
  * @since 2011/06/13
  * 2011/06/10 Kac 属性値のソートは出来ない？
  */
-public class LdapAttributeTest extends LdapTest
+public class LdapAttributeTest extends LdapContextTest
 {
-	private static Logger	log= Logger.getLogger( LdapTest.class );
+	private static Logger	log= Logger.getLogger( LdapContextTest.class );
 	
 	/**
 	 * @param args
