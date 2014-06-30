@@ -21,7 +21,7 @@ import JP.co.ksi.util.CharCodeChecker;
 /**
  * 受信メールを取得する習作
  * @author kac
- * @since 2010/01/19
+ * @since 2014/06/30
  */
 public class MailRecieveTest
 {
@@ -130,7 +130,7 @@ public class MailRecieveTest
 			log.debug( prefix +" "+ enc +" "+ b64 +" "+ suffix );
 			try
 			{
-				string= prefix + new String( Base64.decodeBase64(b64.getBytes()), enc ) + suffix;
+				string= prefix + new String( Base64.decodeBase64(b64.getBytes("US-ASCII")), enc ) + suffix;
 			}
 			catch( Exception e )
 			{

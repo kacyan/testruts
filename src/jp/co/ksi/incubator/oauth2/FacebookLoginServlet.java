@@ -35,7 +35,7 @@ import jp.co.ksi.testruts.bl.BaseBL;
  * facebookのoauth認証でログインする習作
  * @author kac
  * @since 2014/02/18
- * @version 2014/02/14
+ * @version 2014/06/30
  * <pre>
  * [処理の流れ]
  * (1)初期状態(OAuthサーバからのリダイレクトでない場合)は、loginPageにフォワードします
@@ -212,7 +212,7 @@ public class FacebookLoginServlet extends HttpServlet
 					log.debug( "[ResHeader] "+ keys[i] +"="+ headers.get( keys[i] ) );
 				}
 			}
-			BufferedReader	reader= new BufferedReader( new InputStreamReader( con.getInputStream() ) );
+			BufferedReader	reader= new BufferedReader( new InputStreamReader( con.getInputStream(), "utf-8" ) );
 			String	line= reader.readLine();
 			responseData= "";
 			while( line != null )

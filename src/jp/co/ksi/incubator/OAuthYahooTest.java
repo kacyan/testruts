@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
  * OAuthの習作　Yahoo編
  * @author kac
  * @since 2011/10/18
- * @version 2011/10/21
+ * @version 2014/06/30
  * 
  * 手順はこんな感じ(分かったところまで)
  * (1)アプリをProviderに登録する
@@ -153,7 +153,7 @@ public class OAuthYahooTest
 			}
 			
 			String	resText= "";
-			BufferedReader	reader= new BufferedReader( new InputStreamReader( con.getInputStream() ) );
+			BufferedReader	reader= new BufferedReader( new InputStreamReader( con.getInputStream(), "utf-8" ) );
 			String	line= reader.readLine();
 			while( line != null )
 			{

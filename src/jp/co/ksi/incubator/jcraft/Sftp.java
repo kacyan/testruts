@@ -58,7 +58,7 @@ public class Sftp{
 	int s=0;
 	for(int ii=0; ii<i; ii++){
           if(buf[ii]==' '){
-            if(ii-s>0){ cmds.addElement(new String(buf, s, ii-s)); }
+            if(ii-s>0){ cmds.addElement(new String(buf, s, ii-s,"US-ASCII")); }
 	    while(ii<i){if(buf[ii]!=' ')break; ii++;}
 	    s=ii;
 	  }
@@ -129,7 +129,7 @@ public class Sftp{
 	  String path=(String)cmds.elementAt(2);
 	  int foo=0;
 	  if(cmd.equals("chmod")){
-            byte[] bar=((String)cmds.elementAt(1)).getBytes();
+            byte[] bar=((String)cmds.elementAt(1)).getBytes("US-ASCII");
             int k;
             for(int j=0; j<bar.length; j++){
               k=bar[j];

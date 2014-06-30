@@ -140,7 +140,7 @@ public class GetAccessToken extends BaseBL
 			{
 				log.debug( "[ResHeader] "+ keys[i] +"="+ headers.get( keys[i] ) );
 			}
-			BufferedReader	reader= new BufferedReader( new InputStreamReader( con.getInputStream() ) );
+			BufferedReader	reader= new BufferedReader( new InputStreamReader( con.getInputStream(), "utf-8" ) );
 			String	line= reader.readLine();
 			responseData= "";
 			while( line != null )

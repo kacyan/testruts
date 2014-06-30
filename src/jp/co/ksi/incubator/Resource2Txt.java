@@ -37,7 +37,7 @@ public class Resource2Txt
 		PrintWriter	out= null;
 		try
 		{
-			in= new BufferedReader( new InputStreamReader( new FileInputStream( srcFile ) ) );
+			in= new BufferedReader( new InputStreamReader( new FileInputStream( srcFile ), charset ) );
 			out= new PrintWriter( new OutputStreamWriter( new FileOutputStream( dstFile ), charset ) );
 			
 			String	line= in.readLine();
