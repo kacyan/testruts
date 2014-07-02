@@ -47,6 +47,10 @@ public class ReplaceTest
 		src= "/testruts/SQLServlet/aaa.123-b_c";
 		dst= src.replaceAll( "/aaa.123-b_c\\Z", "" );
 		System.out.println( dst );
+
+		src= "https://www.googleapis.com/gmail/v1/${mailAddress}/messages?maxResults=20";
+		dst= src.replaceAll( "\\$\\{mailAddress\\}", "kacyan@gmail.com");
+		System.out.println( dst );
 	}
 	
 }
