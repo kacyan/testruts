@@ -1,3 +1,6 @@
+[2014/07/04]
+gitがなんかおかしい。
+
 [2014/07/03]
 (1)Gmail APIで返されるJSONデータから本文を取り出しデコードする習作を追加した。
 　jp.co.ksi.incubator.GmailMessageDecodeTest
