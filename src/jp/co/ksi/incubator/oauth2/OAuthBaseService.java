@@ -1,7 +1,6 @@
 package jp.co.ksi.incubator.oauth2;
 
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -22,23 +21,57 @@ import org.apache.log4j.Logger;
  * OAuth-2.0を使用するWEBサービスを呼出す処理の基底クラス
  * @author kac
  * @since 2012/08/08
- * @version 2012/08/08
+ * @version 2014/07/03
+ * <pre>
+ * 作っては見たものの使われてない？
+ * 基底クラスを作った理由は、以下の処理が共通化できると思ったから...
+ * ・サービス呼び出しで401認証エラーが返ってきた場合、トークンを再取得(refreshAccessToken)して再度サービス呼び出しを行う
+ * ・サービス呼び出し処理(http通信)
+ * でも責務がおかしな点もある
+ * ・トークン再取得はやるのに、最初のoauth要求とトークン取得は別クラスでやってる
+ * ・再取得するので、その後トークンを保存する処理も行う
+ * ->保存処理は別指定できるようにしよう。例：setSaveOAuthProc()
+ * ・oauthConfigに保存に関する情報が含まれてる
+ * ・refreshAccessToken()内でoauth保存してるけど、どこかにあるgetAccessToken()と同じレベルにすべき
+ * ・oauthConfigを使う処理はOAuthProcedureに纏めてはどうか？
+ * 　↑あかん。拡張性を持たせたいのはload,saveのみ。requestToken,getToken,refreshTokenは共通処理だ。
+ * 　これらのメソッド群の意味は？前者はアプリ都合、後者は決まり事だ。
+ * 　決まり事だから共通クラス化する。
+ * 　拡張性を持たせるために汎化を使う。
+ * 　処理フローの決まり事はテンプレートメソッドパターン。
+ * 　OAuthUtil -------- 決まり事の処理を共通メソッド化する
+ * 　OAuthProcedure --- 拡張性のいる部分をメソッド化する
+ * 　OAuthBaseService - 決まり事の処理フローをテンプレートメソッド化する
+ * </pre>
  */
 public class OAuthBaseService
 {
 	private static final String ENC_UTF8 = "utf-8";
 
 	private static Logger	log= Logger.getLogger( OAuthBaseService.class );
-	
+
 	private OAuth	oauth;
 	private OAuthConfig	oauthConfig;
-	
+
 	private String method;
 
 	private String serviceURL;
 
 	private String responseData;
-	
+
+	/**
+	 * oauthを保存するクラス
+	 */
+	private OAuthProcedure	saveOAuthProcedure;
+
+	public final OAuthProcedure getSaveOAuthProcedure() {
+		return saveOAuthProcedure;
+	}
+
+	public final void setSaveOAuthProcedure(OAuthProcedure saveOAuthProcedure) {
+		this.saveOAuthProcedure = saveOAuthProcedure;
+	}
+
 	/**
 	 * oauth-2.0対応のWEBサービスを呼び出します。
 	 * 401が返ってきたら、access_tokenを再取得して再度WEBサービスを呼び出します。
@@ -46,17 +79,17 @@ public class OAuthBaseService
 	 */
 	public void callService() throws Exception
 	{
-		
+
 		method = "GET";
 		serviceURL = "https://graph.facebook.com/me/home?access_token="+ URLEncoder.encode( oauth.getAccess_token(), ENC_UTF8 );
-		
+
 		responseData = "";
 		try
 		{
 			if( doRequest() == 401 )
 			{
 				refreshAccessToken();
-				
+
 				doRequest();
 			}
 		}
@@ -65,7 +98,7 @@ public class OAuthBaseService
 			log.error( method +" "+ serviceURL, e );
 		}
 	}
-	
+
 	public String getResponseData()
 	{
 		return responseData;
@@ -105,7 +138,7 @@ public class OAuthBaseService
 		{//	エラー終了
 			return responseCode;
 		}
-		
+
 		BufferedReader	reader= new BufferedReader( new InputStreamReader( con.getInputStream() ) );
 		String	line= reader.readLine();
 		responseData= "";
@@ -116,10 +149,10 @@ public class OAuthBaseService
 			line= reader.readLine();
 		}
 		reader.close();
-		
+
 		return responseCode;
 	}
-	
+
 	private void refreshAccessToken() throws Exception
 	{
 		oauth.setGrant_type( "refresh_token" );
@@ -184,7 +217,7 @@ public class OAuthBaseService
 				line= reader.readLine();
 			}
 			reader.close();
-			
+
 			log.info( responseData );
 			OAuth	recvOauth = JSON.decode( responseData, OAuth.class );	//受け取ったoauthの一時保管
 			log.debug( recvOauth );
@@ -202,38 +235,12 @@ public class OAuthBaseService
 		{
 		}
 
-		//	TODO 2012/08/08 ファイル保存はこのメソッドの中でやるべきなのか？読込みはしない癖に...
-		//	oauthをファイルに保存する
-		FileOutputStream	out= null;
-		String	oauthFile= oauthConfig.getOauthFile();
-		try
-		{
-			out= new FileOutputStream( oauthFile );
-			JSON.encode( oauth, out );
-			log.info( "oauth is saved "+ oauthFile );
-		}
-		catch( Exception e )
-		{//	ERR
-			log.error( oauthFile, e );
-			throw e;
-		}
-		finally
-		{
-			if( out != null )
-			{//	後始末
-				try
-				{
-					out.close();
-				}
-				catch( Exception e )
-				{
-					log.error( oauthFile, e );
-				}
-			}
-		}
+		//	2014/07/03 oauthを保存する
+		saveOAuthProcedure.saveOAuth( oauth, oauthConfig );
+
 		//	TODO 2012/08/08 戻値は要らんか？案１．レスポンスコード
 	}
-	
+
 	private Proxy getProxy()
 	{
 		return Proxy.NO_PROXY;

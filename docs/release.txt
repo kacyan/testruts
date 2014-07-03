@@ -2,6 +2,10 @@
 (1)Gmail APIで返されるJSONデータから本文を取り出しデコードする習作を追加した。
 　jp.co.ksi.incubator.GmailMessageDecodeTest
 　jp.co.ksi.incubator.JsonTest
+(2)改善案を追加
+　jp.co.ksi.incubator.oauth2.DefaultOAuthProcedure
+　jp.co.ksi.incubator.oauth2.OAuthBaseService
+　jp.co.ksi.incubator.oauth2.OAuthProcedure
 
 [2014/06/30]
 (1)ldap.jspを改良した
