@@ -51,6 +51,21 @@ public class ReplaceTest
 		src= "https://www.googleapis.com/gmail/v1/${mailAddress}/messages?maxResults=20";
 		dst= src.replaceAll( "\\$\\{mailAddress\\}", "kacyan@gmail.com");
 		System.out.println( dst );
+
+		//	Content-Typeからcharsetを取得する
+		regex= ".*[Cc][Hh][Aa][Rr][Ss][Ee][Tt]=\"?+([^;\"]*).*";
+		src= "text/plain; charset=ISO-2022-JP";
+		dst= src.replaceAll( regex, "$1");
+		System.out.println( dst );
+		src= "text/plain; charset=ISO-2022-JP;";
+		dst= src.replaceAll( regex, "$1");
+		System.out.println( dst );
+		src= "text/plain; charset=ISO-2022-JP; format=flowed; delsp=yes";
+		dst= src.replaceAll( regex, "$1");
+		System.out.println( dst );
+		src= "Content-Type=text/plain; charset=\"Shift_JIS\"";
+		dst= src.replaceAll( regex, "$1");
+		System.out.println( dst );
 	}
 	
 }

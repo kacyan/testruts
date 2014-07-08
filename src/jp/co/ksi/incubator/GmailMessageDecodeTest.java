@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import sun.misc.BASE64Decoder;
+import org.apache.commons.codec.binary.Base64;
 
 import net.arnx.jsonic.JSON;
 
@@ -29,7 +29,31 @@ public class GmailMessageDecodeTest
 	 */
 	public static void main( String[] args )
 	{
+
+		String	charset="ISO-2022-JP";
+		String	src= "6YCa55+lOg0KDQrjgr_jgqTjg4jjg6s6IOOBpuOBmeOBqA0K5pel5pmCOiAyMDE0LzA3LzAxICjngaspIDEwOjAwIO+9niAxMTowMCDmnbHkuqwNCuOCq+ODrOODs+ODgOODvDoga2Fja3NpLnRlc3RAZ21haWwuY29tDQrlj4LliqDogIU6DQogICAgICog44GL44GP44KE44KT44Gm44GZ44GoLSDnrqHnkIbogIUNCg0K5LqI5a6a44Gu6Kmz57SwOiAgDQpodHRwczovL3d3dy5nb29nbGUuY29tL2NhbGVuZGFyL2V2ZW50P2FjdGlvbj1WSUVXJmVpZD1ZV1YyY1dsdFptTnhPV1JuYW5FeGJYRnNOemxvWlhVMk1UZ2dhMkZqYTNOcExuUmxjM1JBYlEmdG9rPU1qRWphMkZqYTNOcExuUmxjM1JBWjIxaGFXd3VZMjl0TTJaa09HTmtOR1JsWTJWaU1HRmtNekV6TTJVNE1XTXdNamN3T1RSaFl6UmlOekl6TnpBMU1RJmN0ej1Bc2lhL1Rva3lvJmhsPWphDQoNCkdvb2dsZSDjgqvjg6zjg7Pjg4Djg7zjgYvjgonjga7mi5vlvoXnirY6IGh0dHBzOi8vd3d3Lmdvb2dsZS5jb20vY2FsZW5kYXIvDQoNCuOAjGthY2tzaS50ZXN0QGdtYWlsLmNvbeOAjeOCq+ODrOODs+ODgOODvOOBrumAmuefpeOBruWPl+S_oeOBjOioreWumuOBleOCjOOBpuOBhOOCi+OBn+OCgeOAgeacrOODoeODvCANCuODq+OCkiBrYWNrc2kudGVzdEBnbWFpbC5jb20g44Gr44GK6YCB44KK44GX44Gm44GE44G+44GZ44CCDQoNCumAmuefpeOCkuWPl+OBkeWPluOCieOBquOBhOOCiOOBhuOBq+OBmeOCi+OBq+OBr+OAgWh0dHBzOi8vd3d3Lmdvb2dsZS5jb20vY2FsZW5kYXIvIOOBq+ODreOCsOOCpCANCuODs+OBl+OAgeOCq+ODrOODs+ODgOODvOOBrumAmuefpeioreWumuOCkuWkieabtOOBl+OBpuOBj+OBoOOBleOBhOOAgg0K";
+		try
+		{
+			//	Shift_JIS dGhpcyBtYWlsIGlzIHRlc3QuDQrjgYLjgYTjgYbjgYjjgYrjgIINCg0KDQoNCl5fXg0K
+			src= "dGhpcyBtYWlsIGlzIHRlc3QuDQrjgYLjgYTjgYbjgYjjgYrjgIINCg0KDQoNCl5fXg0K";
+			charset= "utf-8";	//	Shift_JIS -> utf-8
+//			src= "6YCa55-lOg0KDQrjgr_jgqTjg4jjg6s6IOOBpuOBmeOBqA0K5pel5pmCOiAyMDE0LzA3LzAxICjngaspIDEwOjAwIO-9niAxMTowMCDmnbHkuqwNCuOCq-ODrOODs-ODgOODvDoga2Fja3NpLnRlc3RAZ21haWwuY29tDQrlj4LliqDogIU6DQogICAgICog44GL44GP44KE44KT44Gm44GZ44GoLSDnrqHnkIbogIUNCg0K5LqI5a6a44Gu6Kmz57SwOiAgDQpodHRwczovL3d3dy5nb29nbGUuY29tL2NhbGVuZGFyL2V2ZW50P2FjdGlvbj1WSUVXJmVpZD1ZV1YyY1dsdFptTnhPV1JuYW5FeGJYRnNOemxvWlhVMk1UZ2dhMkZqYTNOcExuUmxjM1JBYlEmdG9rPU1qRWphMkZqYTNOcExuUmxjM1JBWjIxaGFXd3VZMjl0TTJaa09HTmtOR1JsWTJWaU1HRmtNekV6TTJVNE1XTXdNamN3T1RSaFl6UmlOekl6TnpBMU1RJmN0ej1Bc2lhL1Rva3lvJmhsPWphDQoNCkdvb2dsZSDjgqvjg6zjg7Pjg4Djg7zjgYvjgonjga7mi5vlvoXnirY6IGh0dHBzOi8vd3d3Lmdvb2dsZS5jb20vY2FsZW5kYXIvDQoNCuOAjGthY2tzaS50ZXN0QGdtYWlsLmNvbeOAjeOCq-ODrOODs-ODgOODvOOBrumAmuefpeOBruWPl-S_oeOBjOioreWumuOBleOCjOOBpuOBhOOCi-OBn-OCgeOAgeacrOODoeODvCANCuODq-OCkiBrYWNrc2kudGVzdEBnbWFpbC5jb20g44Gr44GK6YCB44KK44GX44Gm44GE44G-44GZ44CCDQoNCumAmuefpeOCkuWPl-OBkeWPluOCieOBquOBhOOCiOOBhuOBq-OBmeOCi-OBq-OBr-OAgWh0dHBzOi8vd3d3Lmdvb2dsZS5jb20vY2FsZW5kYXIvIOOBq-ODreOCsOOCpCANCuODs-OBl-OAgeOCq-ODrOODs-ODgOODvOOBrumAmuefpeioreWumuOCkuWkieabtOOBl-OBpuOBj-OBoOOBleOBhOOAgg0K";
+			charset= "utf-8";	//	ISO-2022-JP -> utf-8
+
+			src= "6YCa55+lOg0KDQrjgr_jgqTjg4jjg6s6IOOBpuOBmeOBqA0K5pel5pmCOiAyMDE0LzA3LzAxICjngaspIDEwOjAwIO+9niAxMTowMCDmnbHkuqwNCuOCq+ODrOODs+ODgOODvDoga2Fja3NpLnRlc3RAZ21haWwuY29tDQrlj4LliqDogIU6DQogICAgICog44GL44GP44KE44KT44Gm44GZ44GoLSDnrqHnkIbogIUNCg0K5LqI5a6a44Gu6Kmz57SwOiAgDQpodHRwczovL3d3dy5nb29nbGUuY29tL2NhbGVuZGFyL2V2ZW50P2FjdGlvbj1WSUVXJmVpZD1ZV1YyY1dsdFptTnhPV1JuYW5FeGJYRnNOemxvWlhVMk1UZ2dhMkZqYTNOcExuUmxjM1JBYlEmdG9rPU1qRWphMkZqYTNOcExuUmxjM1JBWjIxaGFXd3VZMjl0TTJaa09HTmtOR1JsWTJWaU1HRmtNekV6TTJVNE1XTXdNamN3T1RSaFl6UmlOekl6TnpBMU1RJmN0ej1Bc2lhL1Rva3lvJmhsPWphDQoNCkdvb2dsZSDjgqvjg6zjg7Pjg4Djg7zjgYvjgonjga7mi5vlvoXnirY6IGh0dHBzOi8vd3d3Lmdvb2dsZS5jb20vY2FsZW5kYXIvDQoNCuOAjGthY2tzaS50ZXN0QGdtYWlsLmNvbeOAjeOCq+ODrOODs+ODgOODvOOBrumAmuefpeOBruWPl+S_oeOBjOioreWumuOBleOCjOOBpuOBhOOCi+OBn+OCgeOAgeacrOODoeODvCANCuODq+OCkiBrYWNrc2kudGVzdEBnbWFpbC5jb20g44Gr44GK6YCB44KK44GX44Gm44GE44G+44GZ44CCDQoNCumAmuefpeOCkuWPl+OBkeWPluOCieOBquOBhOOCiOOBhuOBq+OBmeOCi+OBq+OBr+OAgWh0dHBzOi8vd3d3Lmdvb2dsZS5jb20vY2FsZW5kYXIvIOOBq+ODreOCsOOCpCANCuODs+OBl+OAgeOCq+ODrOODs+ODgOODvOOBrumAmuefpeioreWumuOCkuWkieabtOOBl+OBpuOBj+OBoOOBleOBhOOAgg0K";
+			charset= "utf-8";
+			System.out.println( decodeBodyData( src, charset ) );
+		}
+		catch( Exception e )
+		{
+			e.printStackTrace();
+		}
 		
+		//	test1();
+	}
+
+	public static void test1()
+	{
 		FileInputStream	in= null;
 		try
 		{
@@ -140,10 +164,11 @@ public class GmailMessageDecodeTest
 			throws UnsupportedEncodingException, IOException
 	{
 		body= body.replaceAll( "-", "+" );	//	-を+に変換してbase64デコード
-		BASE64Decoder	decoder= new BASE64Decoder();
+		
 		try
 		{
-			return new String( decoder.decodeBuffer( body ), charset );
+			
+			return new String( Base64.decodeBase64( body.getBytes() ), charset );
 		}
 		catch( Exception e )
 		{

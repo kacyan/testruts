@@ -1,5 +1,18 @@
+[2014/07/08]
+(1)commons-codecを1.9にあげた
+　jp.co.ksi.incubator.CommonsCodecBase64Test
+　WebContent/WEB-INF/lib/commons-codec-1.3.jar(削除)
+　WebContent/WEB-INF/lib/commons-codec-1.9.jar(追加)
+(2)log4jのEnhancedPatternLayoutの習作を追加した。
+　jp.co.ksi.incubator.log4j.*
+　build.xml
+　dist/log4jtest.jar
+
 [2014/07/04]
-gitがなんかおかしい。
+(1)gitがなんかおかしい。
+　caoliraのeclipse(indigo)だけおかしい？
+　フェッチ構成を修正したら直った。
+
 
 [2014/07/03]
 (1)Gmail APIで返されるJSONデータから本文を取り出しデコードする習作を追加した。

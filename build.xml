@@ -69,6 +69,41 @@
     </jar>
   </target>
 
+	<target name="log4jtest.jar" depends="init" description="Create log4jtest.jar file to ${dist}" >
+		<mkdir dir="META-INF" />
+		<manifest file="META-INF/log4jtest.MF">
+			<attribute name="Built-By" value="KSI"/>
+			<attribute name="Specification-Title" value="this jar for log4j test."/>
+			<attribute name="Specification-Version" value="${prj_ver}"/>
+			<attribute name="Specification-Vendor" value="KSI"/>
+			<attribute name="Implementation-Title" value="this jar for log4j test."/>
+			<attribute name="Implementation-Version" value="${DSTAMP}"/>
+			<attribute name="Implementation-Vendor" value="KSI"/>
+		</manifest>
+		<mkdir dir="${dist}"/>
+		<jar destfile="${dist}/log4jtest.jar"
+			basedir="${cls}"
+			includes="jp/co/ksi/incubator/log4j/**"
+			excludes="**/CVS/**"
+			manifest="META-INF/log4jtest.MF">
+		</jar>
+	</target>
+	<target name="log4jtest">
+		<java classname="jp.co.ksi.incubator.log4j.EnhancedPatternLayoutTest">
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${dist}">
+					<include name="*.jar" />
+				</fileset>
+<!-- 
+				<pathelement path="${cls}"/>
+ -->
+			</classpath>
+		</java>
+	</target>
+	
   <target name="war" depends="build"
     description="Create jar file to ${dist}" >
     <!-- create manifest file -->
