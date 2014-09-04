@@ -55,6 +55,7 @@ td
 }
  -->
 </style>
+<title>check.jsp</title>
 </head>
 
 <body>

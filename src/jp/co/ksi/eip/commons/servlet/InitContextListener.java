@@ -2,6 +2,7 @@ package jp.co.ksi.eip.commons.servlet;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.jar.Attributes;
@@ -125,6 +126,19 @@ public class InitContextListener implements ServletContextListener,
 		//	コンテキストにセットする
 		context.setAttribute( attrName, props );
 		log.info( "set context attribute "+ attrName );
+		
+		//	2014/08/20 KacDebug
+		if( log.isDebugEnabled() )
+		{
+			try
+			{
+				log.debug( "hostAddress="+ InetAddress.getLocalHost().getHostAddress() );
+			}
+			catch( Exception e )
+			{
+				log.debug( e.toString() );
+			}
+		}
 	}
 
 	/**

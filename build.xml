@@ -18,10 +18,10 @@
 	<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" 
 			 classpath="${env.FINDBUGS_HOME}/lib/findbugs-ant.jar"/>
 	
-  <target name="init">
-    <!-- Create the time stamp -->
-    <tstamp/>
-  </target>
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp/>
+	</target>
 
 	<target name="build" depends="init">
 		<mkdir dir="${cls}" />
@@ -123,7 +123,7 @@
       basedir="${web_src}"
       excludes="**/CVS/**"
       webxml="${web_src}/WEB-INF/web.xml"
-      manifest="${war_dir}/META-INF/MANIFEST.MF"
+      manifest="${web_src}/META-INF/MANIFEST.MF"
       >
     </war>
   </target>

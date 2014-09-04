@@ -66,6 +66,17 @@ public class ReplaceTest
 		src= "Content-Type=text/plain; charset=\"Shift_JIS\"";
 		dst= src.replaceAll( regex, "$1");
 		System.out.println( dst );
+
+		regex= "(.*)\\?.*";
+		src= "/gmail/viewMessage.do?id=1473e";
+		dst= src.replaceAll( regex, "$1");
+		System.out.println( dst );
+		src= "/gmail/listMessage.do?paegToken=049882";
+		dst= src.replaceAll( regex, "$1");
+		System.out.println( dst );
+		
+		
+		
 	}
 	
 }

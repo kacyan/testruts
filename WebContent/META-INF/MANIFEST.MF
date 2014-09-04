@@ -6,6 +6,6 @@ Specification-Title: KSI commons
 Specification-Version: 1.0.0
 Specification-Vendor: KSI
 Implementation-Title: KSI commons
-Implementation-Version: 20140519
+Implementation-Version: 20140820
 Implementation-Vendor: KSI
 
