@@ -12,7 +12,7 @@
 <%@ taglib uri="ksi.tld" prefix="ksi" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- ldap.jsp -->
-<!-- 2014/06/30 -->
+<!-- 2014/09/11 -->
 <%
 String	url= request.getParameter( "url" );
 if( url == null )	url= "";
@@ -100,8 +100,10 @@ selectedScope.setProperty(scope, "selected");
 <pre>
 [ad-local]
  ldap://fscs1.ap.ksi.co.jp/DC=oa,DC=ksi,DC=co,DC=jp
- OU=User,OU=Account,DC=oa,DC=ksi,DC=co,DC=jp
- OU=Group,DC=oa,DC=ksi,DC=co,DC=jp
+ s000000@oa.ksi.co.jp
+ password
+ OU=User,OU=Account,DC=oa,DC=ksi,DC=co,DC=jp / OU=Group,DC=oa,DC=ksi,DC=co,DC=jp
+ (displayName=名前*)
  
 [beta-ldap]
  ldap://beta-ldap.dev.ksi.co.jp/o=WebSignOn,c=JP
