@@ -1,3 +1,14 @@
+[2014/12/26]
+(1)Kerberos認証の習作を追加した。
+　jp.co.ksi.incubator.kerberos.LdapAction
+　jp.co.ksi.incubator.kerberos.LdapTest
+　jp.co.ksi.incubator.kerberos.MyCallbackHandler
+　jp.co.ksi.incubator.kerberos.Test1
+　jp.co.ksi.incubator.kerberos.Test2
+　jp.co.ksi.incubator.kerberos.Test3
+　misc/jaas.conf
+　misc/krb5.conf
+
 [2014/07/08]
 (1)commons-codecを1.9にあげた
 　jp.co.ksi.incubator.CommonsCodecBase64Test

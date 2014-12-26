@@ -1,3 +1,5 @@
+<%@page import="java.util.Enumeration"%>
+<%@page import="org.apache.log4j.Logger"%>
 <%@	page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ taglib uri="ksi.tld" prefix="ksi" %>
 <%@ taglib uri="struts-bean.tld" prefix="bean" %>
@@ -19,9 +21,9 @@ else if( !authorization.matches( "^[Bb][Aa][Ss][Ii][Cc] .*" ) )
 }
 String	tmp= authorization.substring( 6 );
 String	dec= new String( org.apache.commons.codec.binary.Base64.decodeBase64( tmp.getBytes() ) );
-if( dec.equals(":") )
-{//	からだ
-	response.setHeader( "WWW-Authenticate", "BASIC realm=HOGE" );
+if( !dec.equals(":") )
+{//	から
+	response.setHeader( "WWW-Authenticate", "BASIC realm=hoge/huga" );
 	response.sendError( HttpServletResponse.SC_UNAUTHORIZED, "Authorization Required" );
 	return;
 }
@@ -37,5 +39,14 @@ authorization: [<%=authorization %>]<br/>
 Basic: [<%=authorization.matches( "^[Bb][Aa][Ss][Ii][Cc] .*" ) %>]<br/>
 <%=dec %><br/>
 <hr>
+<%
+Enumeration	enumeration= request.getHeaders( "authorization" );
+while( enumeration.hasMoreElements() )
+{
+	Object	obj= enumeration.nextElement();
+%><%=obj %> ---- <%=obj.getClass().getName() %><br/>
+<%
+}
+%>
 </body>
 </html>

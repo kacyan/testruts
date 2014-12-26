@@ -204,6 +204,10 @@
     <servlet-name>WSOLoginServlet</servlet-name>
     <servlet-class>jp.co.ksi.incubator.wso.WSOLoginServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>RedirecTestServlet</servlet-name>
+    <servlet-class>jp.co.ksi.testruts.servlet.RedirecTestServlet</servlet-class>
+  </servlet>
   
   <!-- Standard Action Servlet Mapping -->
   <servlet-mapping>
@@ -245,6 +249,10 @@
   <servlet-mapping>
     <servlet-name>WSOLoginServlet</servlet-name>
     <url-pattern>/wsoLogin</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RedirecTestServlet</servlet-name>
+    <url-pattern>/redirecTest</url-pattern>
   </servlet-mapping>
 
   <session-config>
