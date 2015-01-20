@@ -1,0 +1,39 @@
+ケルベロス認証
+2015/01/20
+
+javaでケルベロス認証を行うには、JAASを使う。
+JAASを使うには、システムプロパティの設定が必要。
+
+[java.security.auth.login.config]
+JAASの設定ファイルの場所を示す。
+例：java.security.auth.login.config=$CATALINA_HOME/conf/jaas.conf"
+
+[java.security.krb5.realm]
+レルム名
+例：java.security.krb5.realm=OA.KSI.CO.JP"
+
+[java.security.krb5.kdc]
+KDCサーバ
+java.security.krb5.kdc=fscs1.oa.ksi.co.jp"
+
+tomcatでのJAASの設定例は以下の通り
+
+catalina.sh
+# 2015/01/14 Kac for JAAS
+CATALINA_OPTS="$CATALINA_OPTS -Djava.security.auth.login.config=$CATALINA_HOME/conf/jaas.conf"
+CATALINA_OPTS="$CATALINA_OPTS -Djava.security.krb5.realm=OA.KSI.CO.JP"
+CATALINA_OPTS="$CATALINA_OPTS -Djava.security.krb5.kdc=fscs1.oa.ksi.co.jp"
+
+$CATALINA_HOME/conf/jaas.conf
+SampleClient {
+    com.sun.security.auth.module.Krb5LoginModule required client=TREU useTicketCache=false debug=true;
+};
+
+習作プログラム
+jp.co.ksi.incubator.kerberos.Test3 ------ KDCに対して認証しを取得するだけの習作
+jp.co.ksi.incubator.kerberos.LdapTest --- ケルベロス認証し、チケットでADにLDAPアクセスする
+jp.co.ksi.incubator.kerberos.LdapAction - LDAPアクセス用の拡張アクション
+jp.co.ksi.incubator.kerberos.MyCallbackHandler -- CallbackHandler
+WebContent/kerberos.jsp ----------------- LdapTestのJSP版 動作には上記設定が必要
+misc/jaas.conf -------------------------- JAASの設定例
+

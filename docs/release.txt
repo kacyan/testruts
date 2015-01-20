@@ -1,3 +1,9 @@
+[2015/01/20]
+(1)Kerberos認証の習作にJSPを追加した。
+　jp.co.ksi.incubator.kerberos.LdapAction
+　WebContent/kerberos.jsp
+　docs/kerberos.txt
+
 [2014/12/26]
 (1)Kerberos認証の習作を追加した。
 　jp.co.ksi.incubator.kerberos.LdapAction

@@ -24,7 +24,7 @@ public class LdapAction implements PrivilegedAction<LdapContext>
 	@Override
 	public LdapContext run()
 	{
-		System.out.println( LdapAction.class.getSimpleName() +":run "+ "" );
+		System.out.println( "["+ LdapAction.class.getSimpleName() +":run "+ "]" );
 		
 		LdapContext	ctx= null;
 		Control[]	ctls= {};
