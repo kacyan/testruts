@@ -1,0 +1,11 @@
+<rules version="16">
+  <emie>
+    <domain exclude="false">wso.ap.ksi.co.jp</domain>
+    <domain exclude="false">wso3.os.ksi.co.jp</domain>
+    <domain exclude="false">wso2.kspirit.gr.kubota.co.jp</domain>
+    <domain exclude="true">ardbeg.dev.ksi.co.jp<path exclude="false">/testruts/html5/2.jsp</path><path exclude="true">/testruts/html5/4.jsp</path><path exclude="false">/testruts/html5/*</path></domain>
+  </emie>
+  <docMode>
+    <domain docMode="7">ardbeg.dev.ksi.co.jp<path docMode="edge">/testruts/html5/1.jsp</path><path docMode="7">/testruts/html5/3.jsp</path><path docMode="5">/testruts/html5/5.jsp</path></domain>
+  </docMode>
+</rules>
