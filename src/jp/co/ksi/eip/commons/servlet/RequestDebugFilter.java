@@ -9,9 +9,16 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
+/**
+ * リクエストをデバッグするためのフィルター
+ * @author kac
+ * @since ?
+ * @version 2015/02/27
+ */
 public class RequestDebugFilter implements Filter
 {
 	private static Logger	log= Logger.getLogger( RequestDebugFilter.class );
@@ -23,11 +30,18 @@ public class RequestDebugFilter implements Filter
 	public void doFilter( ServletRequest req, ServletResponse res,
 			FilterChain chain ) throws IOException, ServletException
 	{
-		log.debug( "CharacterEncoding="+ req.getCharacterEncoding() );
-		log.debug( "ContentType="+ req.getContentType() );
-		log.debug( "Locale="+ req.getLocale() );
-		log.debug( "Protocol="+ req.getProtocol() );
-		log.debug( "ContentLength="+ req.getContentLength() );
+		log.info( "----+----1----+----2----+----3----+----4----+----5" );
+		log.info( "remoteAddr="+ req.getRemoteAddr() );
+		log.debug( "characterEncoding="+ req.getCharacterEncoding() );
+		log.debug( "contentType="+ req.getContentType() );
+		log.debug( "locale="+ req.getLocale() );
+		log.debug( "protocol="+ req.getProtocol() );
+		log.debug( "contentLength="+ req.getContentLength() );
+		if( req instanceof HttpServletRequest )
+		{
+			HttpServletRequest request= (HttpServletRequest)req;
+			log.info( "userAgent="+ request.getHeader( "user-agent" ) );
+		}
 		
 		//	パラメータ
 		Enumeration	enumeration= req.getParameterNames();
@@ -39,12 +53,12 @@ public class RequestDebugFilter implements Filter
 			{
 				for( int i= 0; i < values.length; i++ )
 				{
-					log.debug( "[Param]"+ name +"="+ values[i] );
+					log.info( "[Param]"+ name +"="+ values[i] );
 				}
 			}
 			else
 			{
-				log.debug( "[Param]"+ name +"=null" );
+				log.info( "[Param]"+ name +"=null" );
 			}
 		}
 		
