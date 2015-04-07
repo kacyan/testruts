@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<!-- 2015/04/07 ドラッグ＆ドロップの習作 -->
+<html>
+<head>
+	<meta charset="utf-8">
+	<link href="_assets/css/shared.css" rel="stylesheet" type="text/css"/>
+	<link href="_assets/css/examples.css" rel="stylesheet" type="text/css"/>
+	<script src="_assets/js/examples.js"></script>
+	<script src="lib/easeljs-NEXT.combined.js"></script>
+<script id="editable">
+
+var canvas, stage;
+
+var mouseTarget;	// the display object currently under the mouse, or being dragged
+var dragStarted;	// indicates whether we are currently in a drag operation
+var offset;
+var update = true;
+var debugText= "";
+
+function init() {
+
+	//	これ何してるのか不明
+	examples.showDistractor();
+	
+	//	キャンバスを取得する
+	canvas = document.getElementById("testCanvas");
+	//	ステージを生成する(createjsの概念)
+	stage = new createjs.Stage(canvas);
+
+	//	タッチ可能にする？
+	createjs.Touch.enable(stage);
+
+	//	マウスオーバーを可能にする？
+	stage.enableMouseOver(10);
+	stage.mouseMoveOutside = true; // keep tracking the mouse even when it leaves the canvas
+
+	//	画像を読込む
+	var image = new Image();
+	image.src = "s1.png";
+	image.onload = handleImageLoad;
+	
+}
+
+function stop() {
+	createjs.Ticker.removeEventListener("tick", tick);
+}
+
+function handleImageLoad(event) {
+	var image = event.target;
+	var bitmap;
+	var container = new createjs.Container();
+	stage.addChild(container);
+
+	var x= 100;
+	var y= 50;
+	var	width= 200;
+	var height= 100;
+	//	矩形を描く
+	var rectX= x - width/2;
+	var rectY= y - height/2;
+	var shape = new createjs.Shape();
+	shape.graphics.beginFill("#ffffa0").drawRect( rectX, rectY, width, height );
+	shape.graphics.beginStroke("#000000").drawRect( rectX, rectY, width, height );
+	container.addChild( shape );
+	//	文字列を描く
+	var text= new createjs.Text( "営業担当者", "14px ＭＳゴシック", "#000" );
+//	text.textAlign = "left";
+	text.textBaseline= "middle";
+	text.x = rectX + ( width - text.getMeasuredWidth() ) / 2;
+	text.y = rectY + height / 2;
+	container.addChild( text );
+	//	マウスイベントを登録する　【コンテナに対して登録する】
+	container.on( "mouseover", onMouseOver );
+	container.on( "mouseout", onMouseOut );
+	container.on( "mousedown", onMouseDown );
+	container.on( "pressmove", onPressMove );
+	container.on( "pressup", onPressUp );
+	
+	//	Debug用のテキスト
+	debugText= new createjs.Text( "KacDebug:"+ text.getMeasuredWidth() +" - "+ text.x, "12px Arial", "#007" );
+	debugText.textAlign = "left";
+	debugText.textBaseline= "top";
+	debugText.x = 0;
+	debugText.y = canvas.height - 20;
+	stage.addChild( debugText );
+
+	// create and populate the screen with random daisies:
+// 	bitmap = new createjs.Bitmap(image);
+// 	container.addChild(bitmap);
+// 	bitmap.x = 0;
+// 	bitmap.y = 0;
+// 	bitmap.scaleX = bitmap.scaleY = bitmap.scale = 1;
+// 	bitmap.name = "bmp_" + 0;
+// 	bitmap.cursor = "pointer";
+
+// 	// using "on" binds the listener to the scope of the currentTarget by default
+// 	// in this case that means it executes in the scope of the button.
+// 	bitmap.on("mousedown", function (evt) {
+// 		this.parent.addChild(this);
+// 		this.offset = {x: this.x - evt.stageX, y: this.y - evt.stageY};
+// 	});
+
+// 	// the pressmove event is dispatched when the mouse moves after a mousedown on the target until the mouse is released.
+// 	bitmap.on("pressmove", function (evt) {
+// 		this.x = evt.stageX + this.offset.x;
+// 		this.y = evt.stageY + this.offset.y;
+// 		// indicate that the stage should be updated on the next tick:
+// 		update = true;
+// 	});
+
+// 	bitmap.on("rollover", function (evt) {
+// 		this.scaleX = this.scaleY = this.scale * 1.1;
+// 		update = true;
+// 	});
+
+// 	bitmap.on("rollout", function (evt) {
+// 		this.scaleX = this.scaleY = this.scale;
+// 		update = true;
+// 	});
+
+	examples.hideDistractor();
+	
+	//	描画更新のためのタイマーをリスナー登録する
+	createjs.Ticker.addEventListener("tick", tick);
+}
+
+function onMouseOver( event ) {
+	
+	debugText.text= event;
+	update= true;
+	stage.update( event );	//	描画を更新する
+}
+
+function onMouseOut( event ) {
+	
+	debugText.text= event;
+	update= true;
+	stage.update( event );	//	描画を更新する
+}
+
+function onMouseDown( event ) {
+
+	this.parent.addChild(this);
+	this.offset = {x: this.x - event.stageX, y: this.y - event.stageY};
+	debugText.text= event;
+	update= true;
+	stage.update( event );	//	描画を更新する
+}
+
+//	マウスボタンを押した状態でカーソルが移動する時に呼ばれる？
+function onPressMove( event ) {
+
+	this.x = event.stageX + this.offset.x;
+	this.y = event.stageY + this.offset.y;
+	debugText.text= event;
+	update= true;
+	stage.update( event );	//	描画を更新する
+}
+
+//	マウスボタンが離された時に呼ばれる
+function onPressUp( event ) {
+
+	this.parent.addChild(this);
+	this.offset = {x: this.x - event.stageX, y: this.y - event.stageY};
+	debugText.text= event;
+	update= true;
+	stage.update( event );	//	描画を更新する
+}
+
+//	タイマーのリスナー
+function tick(event) {
+	// this set makes it so the stage only re-renders when an event handler indicates a change has happened.
+	if (update) {
+		update = false; // only update once
+		stage.update(event);	//	描画を更新する
+	}
+}
+
+</script>
+
+</head>
+
+<body onload="init();">
+<header class="EaselJS">
+	<h1>dd1.html</h1>
+</header>
+
+<div>
+	<canvas id="testCanvas" width="960" height="400"></canvas>
+</div>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<!--  2015/04/07 ドラッグ＆ドロップの習作 -->
+<html>
+<head>
+	<meta charset="utf-8">
+	<link href="_assets/css/shared.css" rel="stylesheet" type="text/css"/>
+	<link href="_assets/css/examples.css" rel="stylesheet" type="text/css"/>
+	<script src="_assets/js/examples.js"></script>
+	<script src="lib/easeljs-NEXT.combined.js"></script>
+<script id="editable">
+
+var canvas, stage;
+
+var mouseTarget;	// the display object currently under the mouse, or being dragged
+var dragStarted;	// indicates whether we are currently in a drag operation
+var offset;
+var update = true;
+var debugText= "";
+
+function init() {
+
+	//	これ何してるのか不明
+	examples.showDistractor();
+	
+	//	キャンバスを取得する
+	canvas = document.getElementById("testCanvas");
+	//	ステージを生成する(createjsの概念)
+	stage = new createjs.Stage(canvas);
+
+	//	タッチ可能にする？
+	createjs.Touch.enable(stage);
+
+	//	マウスオーバーを可能にする？
+	stage.enableMouseOver(10);
+	stage.mouseMoveOutside = true; // keep tracking the mouse even when it leaves the canvas
+
+	//	線を描く
+	var startX= 100 + 200/2;	//	開始位置のX座標
+	var startY= 50 + 100/2;	//	開始位置のY座標
+	var endX= 400 + 200/2;	//	終了位置のX座標
+	var endY= 50 + 100/2;	//	終了位置のY座標
+	var g = new createjs.Graphics();
+	g.beginStroke( "#000" );
+	g.moveTo( startX, startY );
+	g.lineTo( endX, endY );
+	//	ベクターデータをシェイプにセットする
+	var shape = new createjs.Shape( g );
+	//	シェイプをステージに追加する
+	stage.addChild( shape );
+
+	startX= 400 + 200/2;	//	開始位置のX座標
+	startY= 50 + 100/2;	//	開始位置のY座標
+	endX= 700 + 200/2;	//	終了位置のX座標
+	endY= 50 + 100/2;	//	終了位置のY座標
+	g = new createjs.Graphics();
+	g.beginStroke( "#000" );
+	g.moveTo( startX, startY );
+	g.lineTo( endX, endY );
+	//	ベクターデータをシェイプにセットする
+	var shape = new createjs.Shape( g );
+	//	シェイプをステージに追加する
+	stage.addChild( shape );
+	
+	var container1 = new createjs.Container();
+	stage.addChild(container1);
+	var x= 100;
+	var y= 50;
+	var	width= 200;
+	var height= 100;
+	//	矩形を描く
+	var shape = new createjs.Shape();
+	shape.graphics.beginFill("#ffffa0").drawRect( x, y, width, height );
+	shape.graphics.beginStroke("#000000").drawRect( x, y, width, height );
+	shape.name= "営業担当者";
+	container1.addChild( shape );
+	//	文字列を描く
+	var text= new createjs.Text( shape.name, "14px ＭＳゴシック", "#000" );
+	text.textBaseline= "middle";
+	text.x = x + ( width - text.getMeasuredWidth() ) / 2;
+	text.y = y + height / 2;
+	container1.addChild( text );
+	//	マウスイベントを登録する
+	container1.on( "mouseover", onMouseOver );
+	container1.on( "mouseout", onMouseOut );
+	container1.on( "mousedown", onMouseDown );
+	container1.on( "pressmove", onPressMove );
+	container1.on( "pressup", onPressUp );
+
+	var container2 = new createjs.Container();
+	stage.addChild(container2);
+	//	楕円を描く
+	x= 400;
+	y= 50;
+	width= 200;
+	height= 100;
+	g = new createjs.Graphics();
+	g.beginFill("#ffffa0").drawEllipse( x, y, width, height );
+	g.beginStroke("#000000").drawEllipse( x, y, width, height );
+	shape= new createjs.Shape( g );
+	shape.name= "作成する";
+	container2.addChild( shape );
+	//	文字列を描く
+	var text= new createjs.Text( shape.name, "14px ＭＳゴシック", "#000" );
+	text.textBaseline= "middle";
+	text.x = x + ( width - text.getMeasuredWidth() ) / 2;
+	text.y = y + height / 2;
+	container2.addChild( text );
+	//	マウスイベントを登録する
+	container2.on( "mouseover", onMouseOver );
+	container2.on( "mouseout", onMouseOut );
+	container2.on( "mousedown", onMouseDown );
+	container2.on( "pressmove", onPressMove );
+	container2.on( "pressup", onPressUp );
+
+	var container3 = new createjs.Container();
+	stage.addChild(container3);
+	x= 700;
+	y= 50;
+	width= 200;
+	height= 100;
+	//	矩形を描く
+	shape = new createjs.Shape();
+	shape.graphics.beginFill("#ffffa0").drawRect( x, y, width, height );
+	shape.graphics.beginStroke("#000000").drawRect( x, y, width, height );
+	shape.name= "見積依頼書";
+	container3.addChild( shape );
+	//	文字列を描く
+	var text= new createjs.Text( shape.name, "14px ＭＳゴシック", "#000" );
+	text.textBaseline= "middle";
+	text.x = x + ( width - text.getMeasuredWidth() ) / 2;
+	text.y = y + height / 2;
+	container3.addChild( text );
+	//	マウスイベントを登録する
+	container3.on( "mouseover", onMouseOver );
+	container3.on( "mouseout", onMouseOut );
+	container3.on( "mousedown", onMouseDown );
+	container3.on( "pressmove", onPressMove );
+	container3.on( "pressup", onPressUp );
+
+	//	Debug用のテキスト
+	debugText= new createjs.Text( "KacDebug:"+ text.getMeasuredWidth() +" - "+ text.x, "12px Arial", "#007" );
+	debugText.textAlign = "left";
+	debugText.textBaseline= "top";
+	debugText.x = 0;
+	debugText.y = canvas.height - 20;
+	stage.addChild( debugText );
+
+	examples.hideDistractor();
+	
+	//	描画更新のためのタイマーをリスナー登録する
+	createjs.Ticker.addEventListener("tick", tick);
+}
+
+
+function stop() {
+	createjs.Ticker.removeEventListener("tick", tick);
+}
+
+function onMouseOver( event ) {
+	
+//	this.getChildByName("営業担当者").scaleX= 1.05;
+//	this.getChildByName("営業担当者").scaleY= 1.05;
+	debugText.text= event +" - "+ this.getChildByName("営業担当者").scaleX;
+	update= true;
+	stage.update( event );	//	描画を更新する
+}
+
+function onMouseOut( event ) {
+	
+//	this.getChildByName("営業担当者").scaleX= 1;
+//	this.getChildByName("営業担当者").scaleY= 1;
+	debugText.text= event;
+	update= true;
+	stage.update( event );	//	描画を更新する
+}
+
+function onMouseDown( event ) {
+
+	this.parent.addChild(this);
+	this.offset = {x: this.x - event.stageX, y: this.y - event.stageY};
+	debugText.text= event;
+	update= true;
+	stage.update( event );	//	描画を更新する
+}
+
+//	マウスボタンを押した状態でカーソルが移動する時に呼ばれる？
+function onPressMove( event ) {
+
+	this.x = event.stageX + this.offset.x;
+	this.y = event.stageY + this.offset.y;
+	debugText.text= event;
+	update= true;
+	stage.update( event );	//	描画を更新する
+}
+
+//	マウスボタンが離された時に呼ばれる
+function onPressUp( event ) {
+
+	this.parent.addChild(this);
+	this.offset = {x: this.x - event.stageX, y: this.y - event.stageY};
+	debugText.text= event;
+	update= true;
+	stage.update( event );	//	描画を更新する
+}
+
+//	タイマーのリスナー
+function tick(event) {
+	// this set makes it so the stage only re-renders when an event handler indicates a change has happened.
+	if (update) {
+		update = false; // only update once
+		stage.update(event);	//	描画を更新する
+	}
+}
+
+</script>
+
+</head>
+
+<body onload="init();">
+<header class="EaselJS">
+	<h1>dd1.html</h1>
+</header>
+
+<div>
+	<canvas id="testCanvas" width="960" height="400"></canvas>
+</div>
+</body>
+</html>

@@ -6,6 +6,6 @@ Specification-Title: testruts
 Specification-Version: 1.0.0
 Specification-Vendor: KSI
 Implementation-Title: testruts for ardbeg
-Implementation-Version: 20150312
+Implementation-Version: 20150402
 Implementation-Vendor: KSI
 

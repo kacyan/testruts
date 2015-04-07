@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--  2015/04/07 線の習作 -->
+<html>
+<head>
+	<meta charset="utf-8">
+	<link href="_assets/css/shared.css" rel="stylesheet" type="text/css"/>
+	<link href="_assets/css/examples.css" rel="stylesheet" type="text/css"/>
+	<script src="_assets/js/examples.js"></script>
+	<script src="lib/easeljs-NEXT.combined.js"></script>
+<script id="editable">
+
+var canvas;
+var stage;
+
+function init() {
+	
+	//	これ何してるのか不明
+//	examples.showDistractor();
+
+	//	キャンバスを取得する
+	canvas = document.getElementById("testCanvas");
+	//	ステージを作成する
+	stage = new createjs.Stage(canvas);
+
+	//	コンテナを作成しステージにセットする
+	var container2 = new createjs.Container();
+	stage.addChild( container2 );
+	
+	//	線を描く
+	var startX= 100;	//	開始位置のX座標
+	var startY= 50;	//	開始位置のY座標
+	var endX= 200;	//	終了位置のX座標
+	var endY= 100;	//	終了位置のY座標
+	var g = new createjs.Graphics();
+	g.beginStroke( "#000" );
+	g.moveTo( startX, startY );
+	g.lineTo( endX, endY );
+	
+	//	楕円のベクターデータをシェイプにセットする
+	var shape = new createjs.Shape( g );
+	//	シェイプをコンテナに追加する
+	container2.addChild( shape );
+
+	//	ステージを再描画する
+	stage.update();
+}
+</script>
+</head>
+
+<body onload="init();">
+<header class="EaselJS">
+	<h1>dd1.html</h1>
+</header>
+
+<div id="wrapper">
+<canvas id="testCanvas" width="960" height="400"></canvas>
+</div>
+</body>
+</html>

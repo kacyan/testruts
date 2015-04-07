@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--  2015/04/07 楕円の習作 -->
+<html>
+<head>
+	<meta charset="utf-8">
+	<link href="_assets/css/shared.css" rel="stylesheet" type="text/css"/>
+	<link href="_assets/css/examples.css" rel="stylesheet" type="text/css"/>
+	<script src="_assets/js/examples.js"></script>
+	<script src="lib/easeljs-NEXT.combined.js"></script>
+<script id="editable">
+
+var canvas;
+var stage;
+
+function init() {
+	
+	//	これ何してるのか不明
+//	examples.showDistractor();
+
+	//	キャンバスを取得する
+	canvas = document.getElementById("testCanvas");
+	//	ステージを作成する
+	stage = new createjs.Stage(canvas);
+
+	//	コンテナを作成しステージにセットする
+	var container2 = new createjs.Container();
+	stage.addChild( container2 );
+	
+	//	楕円を描く
+	var x= 200;	//	楕円の左上のX座標
+	var y= 50;	//	楕円の左上のY座標
+	var width= 200;	//	楕円の幅
+	var height= 100;	//	楕円の高さ
+	var g = new createjs.Graphics();
+	g.beginFill( "#ffffa0" ).drawEllipse( x, y, width, height );
+	g.beginStroke( "#000" ).drawEllipse( x, y, width, height );
+	
+	//	楕円のベクターデータをシェイプにセットする
+	var shape = new createjs.Shape( g );
+	//	シェイプをコンテナに追加する
+	container2.addChild( shape );
+
+	//	文字列を描く
+ 	var text= new createjs.Text( "作成する", "14px ＭＳゴシック", "#000" );
+ 	text.textBaseline= "middle";
+ 	text.x = x + ( width - text.getMeasuredWidth() ) / 2;
+ 	text.y = y + height / 2;
+ 	//	文字列をコンテナに追加する
+ 	container2.addChild( text );
+
+	//	ステージを再描画する
+	stage.update();
+}
+</script>
+</head>
+
+<body onload="init();">
+<header class="EaselJS">
+	<h1>dd1.html</h1>
+</header>
+
+<div id="wrapper">
+<canvas id="testCanvas" width="960" height="400"></canvas>
+</div>
+</body>
+</html>
