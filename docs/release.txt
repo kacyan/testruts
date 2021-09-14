@@ -1,3 +1,15 @@
+[2021/09/14]
+(1)画像表示用Servletを追加した。
+　jp.co.ksi.eip.commons.util.FileComparator
+　jp.co.ksi.eip.commons.util.StringUtil
+　jp.co.ksi.testruts.servlet.ListServlet
+　WebContent/WEB-INF/web.xml
+　WebContent/WEB-INF/testruts.properties
+(2)旧PC(CentOS7)をbowmoreとしてビルドを変更した。
+　webapps/bowmore/WEB-INF/web.xml
+　webapps/bowmore/WEB-INF/testruts.properties
+　build.xml
+
 [2015/03/12]
 (1)IE11対応の調査用コンテンツ追加
 　jp.ci.ksi.eip.commons.servlet.RequestDebugFilter

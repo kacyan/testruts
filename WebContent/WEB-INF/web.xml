@@ -14,7 +14,7 @@
    <param-value>/WEB-INF/testruts.properties</param-value>
   </context-param>
 
-<!-- 
+<!--
   <filter>
     <filter-name>S2020Filter</filter-name>
     <filter-class>jp.co.ksi.eip.commons.servlet.S2020Filter</filter-class>
@@ -76,7 +76,7 @@
   </filter>
  -->
 
-<!-- 
+<!--
   <filter-mapping>
     <filter-name>S2020Filter</filter-name>
     <url-pattern>*.do</url-pattern>
@@ -178,7 +178,7 @@
     <display-name>JCSAdminServlet</display-name>
     <servlet-name>JCSAdminServlet</servlet-name>
     <servlet-class>org.apache.jcs.admin.servlet.JCSAdminServlet</servlet-class>
-<!-- 
+<!--
     <init-param>
       <param-name>properties</param-name>
       <param-value>WEB-INF/conf/JCSAdminServlet.velocity.properties</param-value>
@@ -192,6 +192,18 @@
   <servlet>
     <servlet-name>TestServlet</servlet-name>
     <servlet-class>jp.co.ksi.testruts.servlet.TestServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ListFileServlet</servlet-name>
+    <servlet-class>jp.co.ksi.testruts.servlet.ListFileServlet</servlet-class>
+    <init-param>
+      <param-name>baseFolder</param-name>
+      <param-value>/data/images</param-value>
+    </init-param>
+    <init-param>
+      <param-name>baseLink</param-name>
+      <param-value>/images</param-value>
+    </init-param>
   </servlet>
   <servlet>
     <servlet-name>FacebookLoginServlet</servlet-name>
@@ -217,7 +229,7 @@
     <servlet-name>RedirecTestServlet</servlet-name>
     <servlet-class>jp.co.ksi.testruts.servlet.RedirecTestServlet</servlet-class>
   </servlet>
-  
+
   <!-- Standard Action Servlet Mapping -->
   <servlet-mapping>
     <servlet-name>action</servlet-name>
@@ -262,6 +274,10 @@
   <servlet-mapping>
     <servlet-name>RedirecTestServlet</servlet-name>
     <url-pattern>/redirecTest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ListFileServlet</servlet-name>
+    <url-pattern>/list/*</url-pattern>
   </servlet-mapping>
 
   <session-config>

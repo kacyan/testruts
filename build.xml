@@ -12,12 +12,8 @@
 	<property name="extlib" value="extlib" />
 	<property name="dist" value="dist"/>
 
-	<!-- 2014/05/27 Kac for findbugs -->
-	<echo message="env.FINDBUGS_HOME=${env.FINDBUGS_HOME}"/>
 	<echo message="env.ANT_HOME=${env.ANT_HOME}"/>
-	<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" 
-			 classpath="${env.FINDBUGS_HOME}/lib/findbugs-ant.jar"/>
-	
+
 	<target name="init">
 		<!-- Create the time stamp -->
 		<tstamp/>
@@ -38,14 +34,6 @@
 		<native2ascii encoding="utf-8" src="${src}" dest="${cls}" includes="**/*.properties" ext=".properties" />
 	</target>
 
-	<target name="findbugs" depends="build" description="findbugs">
-		<findbugs home="${env.FINDBUGS_HOME}" 
-				output="xml"
-				outputFile="${doc}/findbugs_report.xml">
-			<class location="${cls}"/>
-		</findbugs>
-	</target>
-	
   <target name="jar" depends="init"
     description="Create jar file to ${dist}" >
     <!-- create manifest file -->
@@ -97,13 +85,13 @@
 				<fileset dir="${dist}">
 					<include name="*.jar" />
 				</fileset>
-<!-- 
+<!--
 				<pathelement path="${cls}"/>
  -->
 			</classpath>
 		</java>
 	</target>
-	
+
   <target name="war" depends="build"
     description="Create jar file to ${dist}" >
     <!-- create manifest file -->
@@ -154,8 +142,9 @@
 
 	<!-- =================================
           target: bowmore/testruts.war
+          2021/09/08 Kac 192.168.11.6 tomcat7用に変更
          ================================= -->
-    <target name="bowmore/testruts.war" depends="build" description="cerate bowmore/testruts.war">
+    <target name="bowmore/testruts.war" depends="init" description="cerate bowmore/testruts.war">
     	<mkdir dir="${war_dir}/bowmore/META-INF"/>
         <manifest file="${war_dir}/bowmore/META-INF/MANIFEST.MF">
             <attribute name="Built-By" value="KSI"/>
@@ -196,7 +185,7 @@
 			<webinf dir="${war_dir}/was7/WEB-INF" />
 		</war>
 	</target>
-	
+
 	<!-- =================================
           target: PORTAL4/testruts.war
          ================================= -->

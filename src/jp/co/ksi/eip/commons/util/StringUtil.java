@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 public class StringUtil
 {
 	private static Logger	log= Logger.getLogger( StringUtil.class );
-	
+
 	/**
 	 * 指定されたbyte数で文字列をカットします
 	 * @param src	元の文字列
@@ -43,7 +43,7 @@ public class StringUtil
 		for( int i= 0; i < src.length(); i++ )
 		{
 			char c= src.charAt( i );
-			//	0x0020 -- 0x007E 
+			//	0x0020 -- 0x007E
 			if( (c >= 0x20) && (c <= 0x7e) )
 			{//	ASCII=半角
 				count++;
@@ -82,7 +82,7 @@ public class StringUtil
 		dst= buf.toString();
 		return dst;
 	}
-	
+
 	/**
 	 * 指定された文字コードとbyte数で文字列をカットします
 	 * @param src	元の文字列
@@ -101,7 +101,7 @@ public class StringUtil
 			//	codePointを使って１文字とりだす
 			int	cp= src.codePointAt( i );
 			String	s1= String.valueOf( Character.toChars( cp ) );
-			
+
 			try
 			{//	指定された文字コードでbyte長を調べる
 				byte[]	b= s1.getBytes( charset );
@@ -130,7 +130,7 @@ public class StringUtil
 		}
 		return buf.toString();
 	}
-	
+
 	public static int getByteLength( String src, String charset )
 	{
 		byte[] b= {};
@@ -143,7 +143,7 @@ public class StringUtil
 		}
 		return b.length;
 	}
-	
+
 	/**
 	 * 変数が含まれた文字列に値をセットして新しい文字列を返します
 	 * @param src	変数が含まれた文字列
@@ -154,10 +154,10 @@ public class StringUtil
 	 * 　hoge=ほげ
 	 * 　huga=ふが
 	 * の場合、以下のようになります。
-	 * 
+	 *
 	 * 変換前：abcde${hoge}12345${huga}---
 	 * 変換後：abcdeほげ12345ふが---
-	 * 
+	 *
 	 * 変換前：abcde${ehe}12345${huga}---
 	 * 変換後：abcde12345ふが---
 	 * </pre>
@@ -179,7 +179,7 @@ public class StringUtil
 					log.debug( "replace "+ target +"->"+ replace );
 					String	suffix= src.substring( end+1 );
 					log.debug( suffix );
-					
+
 					//	変換した文字で再生成する
 					src= prefix + replace + suffix;
 				}
@@ -195,5 +195,37 @@ public class StringUtil
 		}
 
 		return src;
+	}
+
+	/**
+	 * ２つのパス文字列を/を旨い事しながら結合する
+	 * @param base	ベースとなるパス
+	 * @param path	結合するパス
+	 * @return
+	 */
+	public static String concatPath( String base, String path )
+	{
+		if( base.endsWith("/") )
+		{
+			if( path.startsWith("/") )
+			{//	pathの先頭/を除去する
+				return base + path.substring(1);
+			}
+			else
+			{//	そのまま結合する
+				return base + path;
+			}
+		}
+		else
+		{
+			if( path.startsWith("/") )
+			{//	そのまま結合する
+				return base + path;
+			}
+			else
+			{//	間に/を足す
+				return base +"/"+ path;
+			}
+		}
 	}
 }
