@@ -98,19 +98,30 @@ public class ListFileServlet extends HttpServlet
 		//	2021/09/09 Kac
 		if( viewMode.equalsIgnoreCase("img") )
 		{//	画像として表示する
+			request.setAttribute("requestURI", requestURI);
 			request.setAttribute("baseLink", baseLink);
 			request.setAttribute("pathInfo", pathInfo);
 			request.setAttribute("children", children);
 			request.getRequestDispatcher("/kac/t1.jsp").forward(request, response);
 			return;
 		}
+		else if( viewMode.equalsIgnoreCase("img-fit") )
+		{//	画像として表示する
+			request.setAttribute("requestURI", requestURI);
+			request.setAttribute("baseLink", baseLink);
+			request.setAttribute("pathInfo", pathInfo);
+			request.setAttribute("children", children);
+			request.getRequestDispatcher("/kac/t2.jsp").forward(request, response);
+			return;
+		}
 
 		response.setContentType( "text/html; charset=utf-8" );
 		PrintWriter	pw= response.getWriter();
 		pw.println( "requestURI="+ requestURI +"<br/>" );
-		pw.println( "path="+ path +"<br/>" );
+//		pw.println( "path="+ path +"<br/>" );
 		pw.println( "<form action=\""+ requestURI +"\" method=\"POST\">" );
-		pw.println( "<input type=\"submit\" name=\"viewMode\" value=\"img\"><br/>" );
+		pw.println( "<input type=\"submit\" name=\"viewMode\" value=\"img\">" );
+		pw.println( "<input type=\"submit\" name=\"viewMode\" value=\"img-fit\"><br/>" );
 		pw.println( "</form>" );
 
 		pw.println("<ol>");

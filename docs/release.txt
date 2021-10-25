@@ -1,3 +1,10 @@
+[2021/10/25]
+(1)画像表示用Servletで表示方法を選べるようにした。
+　jp.co.ksi.testruts.servlet.ListServlet
+　WebContent/kac/t1.jsp --- 通常表示
+　WebContent/kac/t2.jsp --- width=100%
+(2)WEB-INF/classes をgitigunoreに追加した。
+
 [2021/09/14]
 (1)画像表示用Servletを追加した。
 　jp.co.ksi.eip.commons.util.FileComparator

@@ -6,6 +6,6 @@ Specification-Title: testruts
 Specification-Version: 1.0.0
 Specification-Vendor: KSI
 Implementation-Title: testruts for bowmore
-Implementation-Version: 20210914
+Implementation-Version: 20211025
 Implementation-Vendor: KSI
 
